@@ -5,10 +5,14 @@ import java.time.LocalDate;
 import java.util.Objects;
 @MappedSuperclass
 public abstract class Pessoa {
+    @Column(length = 50, nullable = false)
     protected String nome;
     @Id
+    @Column(length = 11)
     protected String cpf;
+    @Column(length = 10)
     protected String telefone;
+    @Column(length = 40)
     protected String email;
 
     protected LocalDate dataNascimento;
