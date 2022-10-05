@@ -37,18 +37,18 @@ public class Main {
         System.out.println(cliente2.getId()+ " - "+cliente2.getNome());
 
         //atualização de cliente
-        Cliente cliente3 = ficharioCliente.buscar(1L);
-        //Cliente cliente3 = new Cliente();
-        //cliente3.setId(1L);
-        cliente3.setNome("Josimar Viana");
+
+        Cliente cliente3 = new Cliente();
+        cliente3.setId(1L);
+        cliente3.setNome("Tereza");
 
         ficharioCliente.salvar(cliente3);
 
         //remoção de cliente
-        //Cliente cliente4 = new Cliente();
-        //cliente4.setId(1L);
+        Cliente cliente4 = new Cliente();
+        cliente4.setId(1L);
 
-        Cliente cliente4 = ficharioCliente.buscar(2L);
+
         ficharioCliente.remover(cliente4);
 
     }
