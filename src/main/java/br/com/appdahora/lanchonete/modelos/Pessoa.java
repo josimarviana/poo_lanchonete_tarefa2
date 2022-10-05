@@ -8,7 +8,7 @@ public abstract class Pessoa {
     @Column(length = 50, nullable = false)
     protected String nome;
 
-    @Column(length = 11)
+    @Column(length = 11, nullable = false)
     protected String cpf;
     @Column(length = 13)
     protected String telefone;

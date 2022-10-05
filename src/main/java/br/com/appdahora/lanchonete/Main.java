@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = (ApplicationContext) new SpringApplicationBuilder(LanchoneteApplication.class)
+        ApplicationContext applicationContext =  new SpringApplicationBuilder(LanchoneteApplication.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
 
@@ -21,5 +21,14 @@ public class Main {
         for (Cliente cliente : clientes) {
             System.out.println(cliente.getNome());
         }
+
+        Cliente cliente1 = new Cliente();
+        cliente1.setNome("Pedro");
+        cliente1.setCpf("44444444444");
+        cliente1.setEmail("pedro@gmail.com");
+        cliente1.setTelefone("5478945612");
+
+        ficharioCliente.adicionar(cliente1);
+
     }
 }
