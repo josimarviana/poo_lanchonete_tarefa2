@@ -12,16 +12,27 @@ import java.util.List;
 
 @Component
 public class FicharioCliente {
-    @PersistenceContext //mapeamento de persistência
+    @PersistenceContext
     private EntityManager manager;
 
-    public List<Cliente> listar(){
-        TypedQuery<Cliente> query = manager.createQuery("from Cliente", Cliente.class);
-        return query.getResultList();
+    public List<Cliente> listar() {
+        return manager.createQuery("from Cliente", Cliente.class)
+                .getResultList();
     }
-    @Transactional
-    public Cliente adicionar(Cliente cliente){
-        return manager.merge(cliente);
 
+    public Cliente buscar(Long id) {
+        return manager.find(Cliente.class, id);
     }
+
+    @Transactional
+    public Cliente salvar(Cliente cliente) {
+        return manager.merge(cliente);
+    }
+
+    @Transactional
+    public void remover(Cliente cliente) {
+        cliente = buscar(cliente.getId());
+        manager.remove(cliente);
+    }
+
 }

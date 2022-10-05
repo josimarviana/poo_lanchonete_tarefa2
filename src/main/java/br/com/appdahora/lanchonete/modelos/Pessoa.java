@@ -8,7 +8,7 @@ public abstract class Pessoa {
     @Column(length = 50, nullable = false)
     protected String nome;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 11)
     protected String cpf;
     @Column(length = 13)
     protected String telefone;
@@ -33,19 +33,6 @@ public abstract class Pessoa {
         this.nome = nome;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pessoa pessoa = (Pessoa) o;
-        return Objects.equals(cpf, pessoa.cpf);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cpf);
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -64,6 +51,19 @@ public abstract class Pessoa {
     public void setNome(String nome) {
 
         this.nome = nome;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pessoa pessoa = (Pessoa) o;
+        return Objects.equals(cpf, pessoa.cpf);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cpf);
     }
 
     public String getCpf() {
