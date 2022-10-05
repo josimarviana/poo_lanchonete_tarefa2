@@ -11,11 +11,12 @@ import java.util.List;
 
 @Component
 public class FicharioCliente {
-    @PersistenceContext
+    @PersistenceContext //mapeamento de persistência
     private EntityManager manager;
 
     public List<Cliente> listar(){
-       return manager.createQuery("from Cliente", Cliente.class).getResultList();
+        TypedQuery<Cliente> query = manager.createQuery("from Cliente", Cliente.class);
+        return query.getResultList();
     }
 
 }

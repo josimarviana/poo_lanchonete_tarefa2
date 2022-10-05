@@ -1,4 +1,4 @@
-package br.com.appdahora.lanchonete;
+package br.com.appdahora.lanchonete.controllers;
 
 import br.com.appdahora.lanchonete.ficharios.FicharioCliente;
 import org.springframework.stereotype.Controller;
