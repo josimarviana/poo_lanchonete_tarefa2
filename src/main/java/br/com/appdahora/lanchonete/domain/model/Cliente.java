@@ -13,6 +13,6 @@ public class Cliente extends Pessoa{
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
 }

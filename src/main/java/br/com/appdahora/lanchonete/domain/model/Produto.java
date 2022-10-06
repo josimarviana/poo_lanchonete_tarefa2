@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 public class Produto {
     @EqualsAndHashCode.Include
     @Id
+    private Integer id;
     private String nome;
     private String descricao;
     private BigDecimal preco;

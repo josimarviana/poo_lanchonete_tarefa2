@@ -13,11 +13,13 @@ import java.math.BigDecimal;
 @Entity
 public class ItemPedido {
     @Id
-    private String codigo;
-    @ManyToOne
-    private Produto produto;
+    private Integer id;
     private Integer quantidade;
     private BigDecimal precoUnitario;
     private BigDecimal precoTotal;
     private String observacao;
+    @ManyToOne
+    //@JoinColumn(name = "nome_customizado_coluna_join")
+    private Produto produto;
+
 }
