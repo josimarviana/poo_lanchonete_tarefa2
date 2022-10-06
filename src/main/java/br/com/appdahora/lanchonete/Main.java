@@ -1,7 +1,7 @@
 package br.com.appdahora.lanchonete;
 
-import br.com.appdahora.lanchonete.ficharios.FicharioCliente;
-import br.com.appdahora.lanchonete.modelos.Cliente;
+import br.com.appdahora.lanchonete.infrastructure.repository.ClienteRepositoryImpl;
+import br.com.appdahora.lanchonete.domain.model.Cliente;
 import org.springframework.context.ApplicationContext;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,12 +14,12 @@ public class Main {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        FicharioCliente ficharioCliente = applicationContext.getBean(FicharioCliente.class);
+        ClienteRepositoryImpl clientes = applicationContext.getBean(ClienteRepositoryImpl.class);
 
         //listando todos os clientes
-        List<Cliente> clientes = ficharioCliente.listar();
+        List<Cliente> todosClientes = clientes.todos();
 
-        for (Cliente cliente : clientes) {
+        for (Cliente cliente : todosClientes) {
             System.out.println(cliente.getId()+" - "+cliente.getNome());
         }
 
@@ -30,26 +30,26 @@ public class Main {
         cliente1.setEmail("pedro@gmail.com");
         cliente1.setTelefone("5478945612");
 
-        ficharioCliente.salvar(cliente1);
+        clientes.adicionar(cliente1);
 
         //busca por id
-        Cliente cliente2 = ficharioCliente.buscar(1L);
+        Cliente cliente2 = clientes.porId(1L);
         System.out.println(cliente2.getId()+ " - "+cliente2.getNome());
 
         //atualização de cliente
+        Cliente cliente3 = clientes.porId(1L);
+        //Cliente cliente3 = new Cliente();
+        //cliente3.setId(1L);
+        cliente3.setNome("Josimar Viana");
 
-        Cliente cliente3 = new Cliente();
-        cliente3.setId(1L);
-        cliente3.setNome("Tereza");
-
-        ficharioCliente.salvar(cliente3);
+        clientes.adicionar(cliente3);
 
         //remoção de cliente
-        Cliente cliente4 = new Cliente();
+        Cliente cliente4 = clientes.porId(2L);
+        //Cliente cliente4 = new Cliente();
         cliente4.setId(1L);
 
-
-        ficharioCliente.remover(cliente4);
+        clientes.remover(cliente4);
 
     }
 }

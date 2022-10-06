@@ -1,38 +1,40 @@
-package br.com.appdahora.lanchonete.ficharios;
+package br.com.appdahora.lanchonete.infrastructure.repository;
 
-import br.com.appdahora.lanchonete.modelos.Cliente;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
+import br.com.appdahora.lanchonete.domain.model.Cliente;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
-public class FicharioCliente {
+public class ClienteRepositoryImpl implements ClienteRepository {
+
     @PersistenceContext
     private EntityManager manager;
 
-    public List<Cliente> listar() {
+    @Override
+    public List<Cliente> todos() {
         return manager.createQuery("from Cliente", Cliente.class)
                 .getResultList();
     }
-
-    public Cliente buscar(Long id) {
+    @Override
+    public Cliente porId(Long id) {
         return manager.find(Cliente.class, id);
     }
-
+    @Override
     @Transactional
-    public Cliente salvar(Cliente cliente) {
+    public Cliente adicionar(Cliente cliente) {
+        System.out.println("cliente: "+cliente.getId());
         return manager.merge(cliente);
     }
-
+    @Override
     @Transactional
     public void remover(Cliente cliente) {
-        cliente = buscar(cliente.getId());
+        System.out.println("cliente: "+cliente.getId());
+        cliente = porId(cliente.getId());
         manager.remove(cliente);
     }
-
 }
