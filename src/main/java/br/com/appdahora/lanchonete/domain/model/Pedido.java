@@ -18,7 +18,7 @@ import java.util.List;
 public class Pedido {
     @EqualsAndHashCode.Include
     @Id
-    private Integer id;
+    private Long id;
     private BigDecimal subTotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
