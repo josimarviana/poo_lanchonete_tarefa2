@@ -16,17 +16,17 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     private EntityManager manager;
 
     @Override
-    public List<Produto> todos() {
+    public List<Produto> listar() {
         return manager.createQuery("from Produto", Produto.class)
                 .getResultList();
     }
     @Override
-    public Produto porId(Long id) {
+    public Produto buscar(Long id) {
         return manager.find(Produto.class, id);
     }
     @Override
     @Transactional
-    public Produto adicionar(Produto produto) {
+    public Produto salvar(Produto produto) {
         System.out.println("produto: "+produto.getId());
         return manager.merge(produto);
     }
@@ -34,7 +34,7 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     @Transactional
     public void remover(Produto produto) {
         System.out.println("produto: "+produto.getId());
-        produto = porId(produto.getId());
+        produto = buscar(produto.getId());
         manager.remove(produto);
     }
 }

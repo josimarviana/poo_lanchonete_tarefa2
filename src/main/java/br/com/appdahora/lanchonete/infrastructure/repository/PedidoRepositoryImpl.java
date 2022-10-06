@@ -18,17 +18,17 @@ public class PedidoRepositoryImpl implements PedidoRepository {
     private EntityManager manager;
 
     @Override
-    public List<Pedido> todos() {
+    public List<Pedido> listar() {
         return manager.createQuery("from Pedido", Pedido.class)
                 .getResultList();
     }
     @Override
-    public Pedido porId(Long id) {
+    public Pedido buscar(Long id) {
         return manager.find(Pedido.class, id);
     }
     @Override
     @Transactional
-    public Pedido adicionar(Pedido pedido) {
+    public Pedido salvar(Pedido pedido) {
         System.out.println("pedido: "+pedido.getId());
         return manager.merge(pedido);
     }
@@ -36,7 +36,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
     @Transactional
     public void remover(Pedido pedido) {
         System.out.println("pedido: "+pedido.getId());
-        pedido = porId(pedido.getId());
+        pedido = buscar(pedido.getId());
         manager.remove(pedido);
     }
 }

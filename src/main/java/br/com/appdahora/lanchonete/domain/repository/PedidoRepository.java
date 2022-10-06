@@ -6,8 +6,8 @@ import br.com.appdahora.lanchonete.domain.model.Pedido;
 import java.util.List;
 
 public interface PedidoRepository {
-    List<Pedido> todos();
-    Pedido porId(Long id);
-    Pedido adicionar(Pedido cliente);
+    List<Pedido> listar();
+    Pedido buscar(Long id);
+    Pedido salvar(Pedido cliente);
     void remover(Pedido cliente);
 }
