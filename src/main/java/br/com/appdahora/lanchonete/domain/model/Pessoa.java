@@ -1,5 +1,8 @@
 package br.com.appdahora.lanchonete.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,9 +19,11 @@ public abstract class Pessoa {
     @Column(length = 11)
     protected String cpf;
     @Column(length = 13)
+    @JsonProperty("fone")  //customizando na representação
     protected String telefone;
     @Column(length = 40)
     protected String email;
+    @JsonIgnore //inibi na representação
     protected LocalDate dataNascimento;
 
 }

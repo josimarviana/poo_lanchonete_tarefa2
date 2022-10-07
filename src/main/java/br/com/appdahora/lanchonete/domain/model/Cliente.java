@@ -1,4 +1,5 @@
 package br.com.appdahora.lanchonete.domain.model;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +9,7 @@ import java.util.Objects;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@JsonRootName("cliente") //muda root no xml
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Cliente extends Pessoa{
     @EqualsAndHashCode.Include
