@@ -31,14 +31,15 @@ public class ClienteController {
 
     //@ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     @GetMapping("/{clienteId}")
+    public Cliente buscar(@PathVariable Long clienteId){
+        return clienteRepository.buscar(clienteId);
+    }
+    /*
     public ResponseEntity<Cliente>  buscar(@PathVariable Long clienteId){
         Cliente cliente =  clienteRepository.buscar(clienteId);
        // return ResponseEntity.status(HttpStatus.OK).body(cliente);
         return ResponseEntity.ok(cliente);
     }
-    /*
-    public Cliente buscar(@PathVariable Long clienteId){
-        return clienteRepository.buscar(clienteId);
-    }*/
+    */
 
 }
