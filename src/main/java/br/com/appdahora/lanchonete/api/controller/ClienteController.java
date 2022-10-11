@@ -17,10 +17,10 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @CrossOrigin(origins = "http://localhost:8080/clientes")
     @GetMapping
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Cliente> listar(){
+
         return clienteRepository.listar();
     }
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)

@@ -27,13 +27,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     @Transactional
     public Cliente salvar(Cliente cliente) {
-        System.out.println("cliente: "+cliente.getId());
         return manager.merge(cliente);
     }
     @Override
     @Transactional
     public void remover(Cliente cliente) {
-        System.out.println("cliente: "+cliente.getId());
         cliente = buscar(cliente.getId());
         manager.remove(cliente);
     }
