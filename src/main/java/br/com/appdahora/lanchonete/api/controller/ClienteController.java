@@ -27,19 +27,35 @@ public class ClienteController {
     public ClientesXmlWrapper listarXML(){
         return new ClientesXmlWrapper(clienteRepository.listar());
     }
-    // /clientes/{clienteId}
 
-    //@ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
+   /* resposta simples
     @GetMapping("/{clienteId}")
     public Cliente buscar(@PathVariable Long clienteId){
         return clienteRepository.buscar(clienteId);
     }
-    /*
+   */
+
+    @GetMapping("/{clienteId}")
+    //Permite customizar a resposta HTTP, headers, código de resposta
     public ResponseEntity<Cliente>  buscar(@PathVariable Long clienteId){
         Cliente cliente =  clienteRepository.buscar(clienteId);
-       // return ResponseEntity.status(HttpStatus.OK).body(cliente);
-        return ResponseEntity.ok(cliente);
-    }
-    */
 
+        if(cliente !=null) {
+            // return ResponseEntity.status(HttpStatus.OK).body(cliente); ou
+            return ResponseEntity.ok(cliente);
+        }
+
+        //return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); ou
+        return ResponseEntity.notFound().build();
+
+       // Customizando um header
+       // HttpHeaders headers = new HttpHeaders();
+       // headers.add(HttpHeaders.LOCATION, "http://api.appdahora.com.br:8080/clientes");
+       // return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
+    public Cliente adicionar (@RequestBody Cliente cliente){
+        return clienteRepository.salvar(cliente);
+    }
 }
