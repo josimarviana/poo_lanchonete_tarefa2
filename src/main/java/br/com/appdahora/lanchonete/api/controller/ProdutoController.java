@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
+import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
 import org.springframework.beans.BeanUtils;
@@ -54,6 +55,17 @@ public class ProdutoController {
             return ResponseEntity.ok(produtoAtual);
         }
         return ResponseEntity.notFound().build();
-
     }
+
+    @DeleteMapping("/{produtoId}")
+    public ResponseEntity<Cliente>  remover (@PathVariable Long produtoId){
+        Produto produto =  produtoRepository.buscar(produtoId);
+
+        if(produto !=null) {
+            produtoRepository.remover(produto);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }

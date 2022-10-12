@@ -74,5 +74,14 @@ public class ClienteController {
         }
         return ResponseEntity.notFound().build();
     }
+    @DeleteMapping("/{clienteId}")
+    public ResponseEntity<Cliente>  remover (@PathVariable Long clienteId){
+        Cliente cliente =  clienteRepository.buscar(clienteId);
 
+        if(cliente !=null) {
+            clienteRepository.remover(cliente);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
