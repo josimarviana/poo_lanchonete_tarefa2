@@ -2,7 +2,6 @@ package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
-import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    // @CrossOrigin // para liberar o CORS
+    // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
     @GetMapping
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Cliente> listar(){
@@ -67,7 +68,7 @@ public class ClienteController {
 
         if (clienteAtual != null){
             // clienteAtual.setNome(cliente.getNome()); //forma trabalhosa
-            BeanUtils.copyProperties(cliente, clienteAtual);
+            BeanUtils.copyProperties(cliente, clienteAtual, "id");
             clienteAtual = clienteRepository.salvar(clienteAtual);
             return ResponseEntity.ok(clienteAtual);
         }

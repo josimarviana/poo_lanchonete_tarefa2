@@ -49,7 +49,7 @@ public class ProdutoController {
 
         if(produtoAtual != null){
             // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
-            BeanUtils.copyProperties(produto, produtoAtual);
+            BeanUtils.copyProperties(produto, produtoAtual, "id");
             produtoAtual = produtoRepository.salvar(produtoAtual);
             return ResponseEntity.ok(produtoAtual);
         }
