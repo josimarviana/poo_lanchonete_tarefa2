@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.api.controller;
 import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -42,4 +43,17 @@ public class ProdutoController {
         return produtoRepository.salvar(produto);
     }
 
+    @PutMapping("/{produtoId}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long produtoId, @RequestBody Produto produto){
+        Produto produtoAtual =  produtoRepository.buscar(produtoId);
+
+        if(produtoAtual != null){
+            // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
+            BeanUtils.copyProperties(produto, produtoAtual);
+            produtoAtual = produtoRepository.salvar(produtoAtual);
+            return ResponseEntity.ok(produtoAtual);
+        }
+        return ResponseEntity.notFound().build();
+
+    }
 }

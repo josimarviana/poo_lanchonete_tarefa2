@@ -2,7 +2,9 @@ package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
+import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,4 +60,18 @@ public class ClienteController {
     public Cliente adicionar (@RequestBody Cliente cliente){
         return clienteRepository.salvar(cliente);
     }
+
+    @PutMapping("/{clienteId}")
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
+        Cliente clienteAtual =  clienteRepository.buscar(clienteId);
+
+        if (clienteAtual != null){
+            // clienteAtual.setNome(cliente.getNome()); //forma trabalhosa
+            BeanUtils.copyProperties(cliente, clienteAtual);
+            clienteAtual = clienteRepository.salvar(clienteAtual);
+            return ResponseEntity.ok(clienteAtual);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 }
