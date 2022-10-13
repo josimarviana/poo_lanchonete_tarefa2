@@ -46,7 +46,7 @@ public class PedidoController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public ResponseEntity<Pedido>  adicionar (@RequestBody Pedido pedido){
+    public ResponseEntity<?>  adicionar (@RequestBody Pedido pedido){
 
         try{
             cadastroPedidoService.salvar(pedido);
@@ -55,22 +55,30 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
     }
 
     @PutMapping("/{pedidoId}")
-    public ResponseEntity<Pedido> atualizar(@PathVariable Long pedidoId, @RequestBody Pedido pedido){
-        Pedido pedidoAtual =  pedidoRepository.buscar(pedidoId);
+    public ResponseEntity<?> atualizar(@PathVariable Long pedidoId, @RequestBody Pedido pedido){
 
-        if(pedidoAtual != null){
-            // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
-            BeanUtils.copyProperties(pedido, pedidoAtual, "id");
-            pedidoAtual = cadastroPedidoService.salvar(pedidoAtual);
-            return ResponseEntity.ok(pedidoAtual);
+
+        try{
+            Pedido pedidoAtual =  pedidoRepository.buscar(pedidoId);
+            if (pedidoAtual != null) {
+                BeanUtils.copyProperties(pedido, pedidoAtual, "id");
+                pedidoAtual = cadastroPedidoService.salvar(pedidoAtual);
+                return ResponseEntity.ok(pedidoAtual);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeEmUsoException e){ //tratando violação de chave
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.notFound().build();
+        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @DeleteMapping("/{pedidoId}")
