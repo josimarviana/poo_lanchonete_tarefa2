@@ -2,6 +2,7 @@ package br.com.appdahora.lanchonete.infrastructure.repository;
 
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -27,12 +28,16 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     @Transactional
     public Cliente salvar(Cliente cliente) {
+
         return manager.merge(cliente);
     }
     @Override
     @Transactional
-    public void remover(Cliente cliente) {
-        cliente = buscar(cliente.getId());
+    public void remover(Long id) {
+        Cliente cliente = buscar(id);
+        if (cliente == null){
+           throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(cliente);
     }
 }

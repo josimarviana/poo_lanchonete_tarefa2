@@ -2,6 +2,7 @@ package br.com.appdahora.lanchonete.infrastructure.repository;
 
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -32,9 +33,11 @@ public class ProdutoRepositoryImpl implements ProdutoRepository {
     }
     @Override
     @Transactional
-    public void remover(Produto produto) {
-        System.out.println("produto: "+produto.getId());
-        produto = buscar(produto.getId());
+    public void remover(Long id) {
+        Produto produto = buscar(id);
+        if (produto == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(produto);
     }
 }

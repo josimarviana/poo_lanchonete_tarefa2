@@ -1,9 +1,12 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
+import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
+import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
+import br.com.appdahora.lanchonete.domain.service.CadastroProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,9 @@ import java.util.List;
 public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private CadastroProdutoService cadastroProdutoService;
     
     @GetMapping
     public List<Produto> listar(){
@@ -41,7 +47,8 @@ public class ProdutoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Produto adicionar (@RequestBody Produto produto){
-        return produtoRepository.salvar(produto);
+
+        return cadastroProdutoService.salvar(produto);
     }
 
     @PutMapping("/{produtoId}")
@@ -59,13 +66,15 @@ public class ProdutoController {
 
     @DeleteMapping("/{produtoId}")
     public ResponseEntity<Cliente>  remover (@PathVariable Long produtoId){
-        Produto produto =  produtoRepository.buscar(produtoId);
-
-        if(produto !=null) {
-            produtoRepository.remover(produto);
+        try{
+            cadastroProdutoService.remover(produtoId);
             return ResponseEntity.noContent().build();
+        } catch (EntidadeEmUsoException e){ //tratando violação de chave
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.notFound().build();
+        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

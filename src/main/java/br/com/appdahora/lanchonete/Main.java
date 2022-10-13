@@ -49,7 +49,7 @@ public class Main {
         //Cliente cliente4 = new Cliente();
         cliente4.setId(1L);
 
-        clientes.remover(cliente4);
+        clientes.remover(1L);
 
     }
 }

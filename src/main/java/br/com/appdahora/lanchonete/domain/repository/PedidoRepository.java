@@ -8,6 +8,6 @@ import java.util.List;
 public interface PedidoRepository {
     List<Pedido> listar();
     Pedido buscar(Long id);
-    Pedido salvar(Pedido cliente);
-    void remover(Pedido cliente);
+    Pedido salvar(Pedido pedido);
+    void remover(Long id);
 }

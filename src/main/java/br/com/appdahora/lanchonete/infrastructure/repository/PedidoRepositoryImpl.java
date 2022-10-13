@@ -4,6 +4,7 @@ import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -34,9 +35,11 @@ public class PedidoRepositoryImpl implements PedidoRepository {
     }
     @Override
     @Transactional
-    public void remover(Pedido pedido) {
-        System.out.println("pedido: "+pedido.getId());
-        pedido = buscar(pedido.getId());
+    public void remover(Long id) {
+        Pedido pedido = buscar(id);
+        if (pedido == null){
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(pedido);
     }
 }

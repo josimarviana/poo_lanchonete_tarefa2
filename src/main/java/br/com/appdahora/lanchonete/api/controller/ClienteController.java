@@ -1,10 +1,14 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
+import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
+import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
+import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,9 @@ import java.util.List;
 public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private CadastroClienteService cadastroClienteService;
 
     // @CrossOrigin // para liberar o CORS
     // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
@@ -59,7 +66,8 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Cliente adicionar (@RequestBody Cliente cliente){
-        return clienteRepository.salvar(cliente);
+
+        return cadastroClienteService.salvar(cliente);
     }
 
     @PutMapping("/{clienteId}")
@@ -76,12 +84,14 @@ public class ClienteController {
     }
     @DeleteMapping("/{clienteId}")
     public ResponseEntity<Cliente>  remover (@PathVariable Long clienteId){
-        Cliente cliente =  clienteRepository.buscar(clienteId);
-
-        if(cliente !=null) {
-            clienteRepository.remover(cliente);
+        try{
+            cadastroClienteService.remover(clienteId);
             return ResponseEntity.noContent().build();
+        } catch (EntidadeEmUsoException e){ //tratando violação de chave
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.notFound().build();
+        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
+            return ResponseEntity.notFound().build();
+        }
     }
 }
