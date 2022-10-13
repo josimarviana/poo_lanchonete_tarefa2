@@ -31,5 +31,4 @@ public class Pedido {
     @ManyToMany
     private List<ItemPedido> itemPedidos;
 
-
 }
