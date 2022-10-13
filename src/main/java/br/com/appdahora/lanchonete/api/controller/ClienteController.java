@@ -77,7 +77,7 @@ public class ClienteController {
         if (clienteAtual != null){
             // clienteAtual.setNome(cliente.getNome()); //forma trabalhosa
             BeanUtils.copyProperties(cliente, clienteAtual, "id");
-            clienteAtual = clienteRepository.salvar(clienteAtual);
+            clienteAtual = cadastroClienteService.salvar(clienteAtual);
             return ResponseEntity.ok(clienteAtual);
         }
         return ResponseEntity.notFound().build();

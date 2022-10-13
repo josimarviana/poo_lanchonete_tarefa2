@@ -42,7 +42,6 @@ public class ProdutoController {
             return ResponseEntity.ok(produto);
         }
         return ResponseEntity.notFound().build();
-
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
@@ -58,7 +57,7 @@ public class ProdutoController {
         if(produtoAtual != null){
             // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
             BeanUtils.copyProperties(produto, produtoAtual, "id");
-            produtoAtual = produtoRepository.salvar(produtoAtual);
+            produtoAtual = cadastroProdutoService.salvar(produtoAtual);
             return ResponseEntity.ok(produtoAtual);
         }
         return ResponseEntity.notFound().build();
