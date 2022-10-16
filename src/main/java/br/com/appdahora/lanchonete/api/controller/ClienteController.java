@@ -135,4 +135,8 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/por-nome")
+    public List<Cliente> clientesPorNome(@RequestParam("nome") String nome) {
+        return clienteRepository.consultarPorNome(nome);
+    }
 }

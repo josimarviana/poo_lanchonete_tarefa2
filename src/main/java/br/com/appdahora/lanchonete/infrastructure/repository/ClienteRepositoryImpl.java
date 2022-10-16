@@ -1,9 +1,8 @@
 package br.com.appdahora.lanchonete.infrastructure.repository;
 
-import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
+import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,6 +19,11 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public List<Cliente> listar() {
         return manager.createQuery("from Cliente", Cliente.class)
+                .getResultList();
+    }
+    public List<Cliente> consultarPorNome(String nome) {
+        return manager.createQuery("from Cliente where nome like :nome", Cliente.class)
+                .setParameter("nome", "%" + nome + "%")
                 .getResultList();
     }
     @Override
