@@ -8,13 +8,15 @@ import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @RestController //Equivalente a @Controller e @ResponseBody
 @RequestMapping("/clientes")
@@ -71,17 +73,51 @@ public class ClienteController {
     }
 
     @PutMapping("/{clienteId}")
-    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
+    public ResponseEntity<?> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
+
+        try{
+            Cliente clienteAtual =  clienteRepository.buscar(clienteId);
+            if (clienteAtual != null) {
+                BeanUtils.copyProperties(cliente, clienteAtual, "id");
+                clienteAtual = cadastroClienteService.salvar(clienteAtual);
+                return ResponseEntity.ok(clienteAtual);
+            }
+            return ResponseEntity.notFound().build();
+        } catch (EntidadeEmUsoException e){ //tratando violação de chave
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        
+    }
+    @PatchMapping("/{clienteId}")
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @RequestBody Map<String, Object> campos){
+
         Cliente clienteAtual =  clienteRepository.buscar(clienteId);
 
-        if (clienteAtual != null){
-            // clienteAtual.setNome(cliente.getNome()); //forma trabalhosa
-            BeanUtils.copyProperties(cliente, clienteAtual, "id");
-            clienteAtual = cadastroClienteService.salvar(clienteAtual);
-            return ResponseEntity.ok(clienteAtual);
+        if (clienteAtual == null){
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+
+        merge(campos, clienteAtual);
+
+        return atualizar(clienteId, clienteAtual);
+
     }
+
+    private static void merge(Map<String, Object> camposOrigem, Cliente clienteDestino) {
+        camposOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+
+            Field field = ReflectionUtils.findField(Cliente.class, nomePropriedade);
+            field.setAccessible(true);
+
+            System.out.println(nomePropriedade+" = "+valorPropriedade);
+            ReflectionUtils.setField(field, clienteDestino, valorPropriedade);
+
+        });
+    }
+
     @DeleteMapping("/{clienteId}")
     public ResponseEntity<Cliente>  remover (@PathVariable Long clienteId){
         try{

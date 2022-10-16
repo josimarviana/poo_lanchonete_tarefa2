@@ -2,7 +2,6 @@ package br.com.appdahora.lanchonete.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.ManyToAny;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -17,7 +16,7 @@ public class ItemPedido {
     private BigDecimal precoUnitario;
     private BigDecimal precoTotal;
     private String observacao;
-    @ManyToOne
+    @OneToOne
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Produto produto;
 

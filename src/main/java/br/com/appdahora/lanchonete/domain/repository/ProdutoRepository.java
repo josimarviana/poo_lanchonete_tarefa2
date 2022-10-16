@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.domain.repository;
 
-import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 
 import java.util.List;

@@ -2,7 +2,6 @@ package br.com.appdahora.lanchonete.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

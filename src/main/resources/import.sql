@@ -4,4 +4,6 @@ insert into cliente (cpf, nome, telefone, email) values ('33333333333', 'Jose', 
 insert into produto (nome, descricao, preco) values ('Sanduiche Ixe', 'Sancuiche Ixe', 20);
 insert into produto (nome, descricao, preco) values ('Sanduiche Promo', 'Sancuiche Promo', 10);
 insert into produto (nome, descricao, preco) values ('Sanduiche Mega', 'Sancuiche Mega', 30);
-insert into pedido (data_criacao, valor_total, cliente_id) values ('2022-10-13', 100.00, 1);
+insert into pedido (data_criacao, valor_total, cliente_id) values ('2022-10-13', 20.00, 1);
+insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total) values (1, 1, 20, 20);
+insert into pedido_item_pedidos (pedido_id, item_pedidos_id) values (1, 1);
