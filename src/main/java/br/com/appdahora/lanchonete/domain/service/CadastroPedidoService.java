@@ -22,7 +22,7 @@ public class CadastroPedidoService {
     public Pedido salvar (Pedido pedido){
 
         Long clienteId = pedido.getCliente().getId();
-        Cliente cliente = clienteRepository.buscar(clienteId);
+        Cliente cliente = clienteRepository.findByClienteId(clienteId);
 
         if (cliente == null) {
             throw new EntidadeNaoEncontradaException(

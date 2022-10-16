@@ -33,11 +33,11 @@ public class Main {
         clientes.salvar(cliente1);
 
         //busca por id
-        Cliente cliente2 = clientes.buscar(1L);
+        Cliente cliente2 = clientes.findByClienteId(1L);
         System.out.println(cliente2.getId()+ " - "+cliente2.getNome());
 
         //atualização de cliente
-        Cliente cliente3 = clientes.buscar(1L);
+        Cliente cliente3 = clientes.findByClienteId(1L);
         //Cliente cliente3 = new Cliente();
         //cliente3.setId(1L);
         cliente3.setNome("Josimar Viana");
@@ -45,11 +45,11 @@ public class Main {
         clientes.salvar(cliente3);
 
         //remoção de cliente
-        Cliente cliente4 = clientes.buscar(2L);
+        Cliente cliente4 = clientes.findByClienteId(2L);
         //Cliente cliente4 = new Cliente();
         cliente4.setId(1L);
 
-        clientes.remover(1L);
+        clientes.deleteByClienteID(1L);
 
     }
 }

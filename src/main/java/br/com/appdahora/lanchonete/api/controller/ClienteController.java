@@ -50,7 +50,7 @@ public class ClienteController {
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
     public ResponseEntity<Cliente>  buscar(@PathVariable Long clienteId){
-        Cliente cliente =  clienteRepository.buscar(clienteId);
+        Cliente cliente =  clienteRepository.findByClienteId(clienteId);
 
         if(cliente !=null) {
             // return ResponseEntity.status(HttpStatus.OK).body(cliente); ou
@@ -76,7 +76,7 @@ public class ClienteController {
     public ResponseEntity<?> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
 
         try{
-            Cliente clienteAtual =  clienteRepository.buscar(clienteId);
+            Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId);
             if (clienteAtual != null) {
                 BeanUtils.copyProperties(cliente, clienteAtual, "id");
                 clienteAtual = cadastroClienteService.salvar(clienteAtual);
@@ -94,7 +94,7 @@ public class ClienteController {
     @PatchMapping("/{clienteId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @RequestBody Map<String, Object> campos){
 
-        Cliente clienteAtual =  clienteRepository.buscar(clienteId);
+        Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId);
 
         if (clienteAtual == null){
             return ResponseEntity.notFound().build();

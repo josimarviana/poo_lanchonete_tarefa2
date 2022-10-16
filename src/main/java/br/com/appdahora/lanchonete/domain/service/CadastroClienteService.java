@@ -21,7 +21,7 @@ public class CadastroClienteService {
 
     public void remover(Long clienteId){
         try {
-            clienteRepository.remover(clienteId);
+            clienteRepository.deleteByClienteID(clienteId);
         }
         catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

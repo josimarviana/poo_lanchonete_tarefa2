@@ -22,7 +22,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
                 .getResultList();
     }
     @Override
-    public Cliente buscar(Long id) {
+    public Cliente findByClienteId(Long id) {
         return manager.find(Cliente.class, id);
     }
     @Override
@@ -33,8 +33,8 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     }
     @Override
     @Transactional
-    public void remover(Long id) {
-        Cliente cliente = buscar(id);
+    public void deleteByClienteID(Long id) {
+        Cliente cliente = findByClienteId(id);
         if (cliente == null){
            throw new EmptyResultDataAccessException(1);
         }
