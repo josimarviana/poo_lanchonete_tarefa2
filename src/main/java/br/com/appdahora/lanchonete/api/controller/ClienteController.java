@@ -6,6 +6,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaExcepti
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,8 +94,8 @@ public class ClienteController {
     }
     @PatchMapping("/{clienteId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @RequestBody Map<String, Object> campos){
-
-        Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId);
+        //Map para maior controle de chave e valor, onde valor é um objeto
+        Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId); //recuperando do banco
 
         if (clienteAtual == null){
             return ResponseEntity.notFound().build();
@@ -106,14 +107,18 @@ public class ClienteController {
 
     }
 
-    private static void merge(Map<String, Object> camposOrigem, Cliente clienteDestino) {
-        camposOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+    private static void merge(Map<String, Object> dadosOrigem, Cliente clienteDestino) {
+        ObjectMapper objectMapper = new ObjectMapper(); // converte json em objetos
+        Cliente clienteOrigem = objectMapper.convertValue(dadosOrigem, Cliente.class); // cria um objeto a partir do json
 
-            Field field = ReflectionUtils.findField(Cliente.class, nomePropriedade);
-            field.setAccessible(true);
+        dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+            //valorPropriedade não é devidamente convertido para os tipos corretos, dá erro ao atribuir um bigint pq no json lê int
+            Field field = ReflectionUtils.findField(Cliente.class, nomePropriedade); //recupera a instância dos atributos
+            field.setAccessible(true); //permite acesso aos membros da classe, mesmo sendo privados
 
-            System.out.println(nomePropriedade+" = "+valorPropriedade);
-            ReflectionUtils.setField(field, clienteDestino, valorPropriedade);
+            Object novoValor = ReflectionUtils.getField(field, clienteOrigem); //recupera o valos dos atributos
+
+            ReflectionUtils.setField(field, clienteDestino, novoValor); //atribui os valores
 
         });
     }
