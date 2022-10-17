@@ -4,6 +4,7 @@ import br.com.appdahora.lanchonete.api.model.PedidosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
+import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroPedidoService;
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,4 +96,23 @@ public class PedidoController {
         }
     }
 
+    @GetMapping("/por-data-criacao")
+    public List<Pedido>  pedidosPorDataCriacao(LocalDate dataCriacao) {
+
+        return  pedidoRepository.findByDataCriacao(dataCriacao);
+
+    }
+    @GetMapping("/por-data-criacao-entre")
+    public List<Pedido>   pedidosPorDataCriacaoEntre(LocalDate dataCriacaoInicial, LocalDate dataCriacaoFinal) {
+
+        return  pedidoRepository.findByDataCriacaoBetween(dataCriacaoInicial, dataCriacaoFinal);
+
+    }
+
+    @GetMapping("/por-data-criacao-entre-e-cliente")
+    public List<Pedido>  pedidosPorDataCriacaoEntreECliente(LocalDate dataCriacaoInicial, LocalDate dataCriacaoFinal, Long clienteId) {
+
+        return  pedidoRepository.findByDataCriacaoBetweenAndClienteId(dataCriacaoInicial, dataCriacaoFinal, clienteId);
+
+    }
 }

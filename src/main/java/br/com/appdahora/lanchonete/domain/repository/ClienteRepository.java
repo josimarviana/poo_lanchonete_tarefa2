@@ -8,7 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    List<Cliente> findByNome(String nome);
+    List<Cliente> findByNomeContaining(String nome); //palavraschave
+    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
     Cliente findByCpf(String cpf);
     Cliente findByTelefone(String telefone);
     Cliente findByEmail(String email);

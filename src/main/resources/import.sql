@@ -1,6 +1,6 @@
-insert into cliente (cpf, nome, telefone, email) values ('11111111111', 'Josimar', '61998287070', 'josimar@gmail.com');
-insert into cliente (cpf, nome, telefone, email) values ('22222222222', 'Maria', '22555554445', 'maria@gmail.com');
-insert into cliente (cpf, nome, telefone, email) values ('33333333333', 'Jose', '22555554446', 'jose@gmail.com');
+insert into cliente (cpf, nome, telefone, email) values ('11111111111', 'Josimar Viana', '61998287070', 'josimar@gmail.com');
+insert into cliente (cpf, nome, telefone, email) values ('22222222222', 'Maria Silva', '22555554445', 'maria@gmail.com');
+insert into cliente (cpf, nome, telefone, email) values ('33333333333', 'Jose Pereira', '22555554446', 'jose@gmail.com');
 insert into produto (nome, descricao, preco) values ('Sanduiche Ixe', 'Sancuiche Ixe', 20);
 insert into produto (nome, descricao, preco) values ('Sanduiche Promo', 'Sancuiche Promo', 10);
 insert into produto (nome, descricao, preco) values ('Sanduiche Mega', 'Sancuiche Mega', 30);

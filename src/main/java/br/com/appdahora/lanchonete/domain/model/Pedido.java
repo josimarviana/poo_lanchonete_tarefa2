@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -19,10 +19,10 @@ public class Pedido {
     private BigDecimal subTotal;
     private BigDecimal taxaFrete;
     private BigDecimal valorTotal;
-    private LocalDateTime dataCriacao;
-    private LocalDateTime dataConfirmacao;
-    private LocalDateTime dataEntrega;
-    private LocalDateTime dataCancelamento;
+    private LocalDate dataCriacao;
+    private LocalDate dataConfirmacao;
+    private LocalDate dataEntrega;
+    private LocalDate dataCancelamento;
     private StatusPedido statusPedido;
     @ManyToOne
     //@JoinColumn(name = "nome_customizado_coluna_join")

@@ -141,7 +141,7 @@ public class ClienteController {
     @GetMapping("/por-nome")
     public List<Cliente> clientesPorNome(String nome) {
 
-        return clienteRepository.findByNome(nome);
+        return clienteRepository.findByNomeContaining(nome);
     }
 
     @GetMapping("/por-cpf")
@@ -182,4 +182,6 @@ public class ClienteController {
         return ResponseEntity.notFound().build();
 
     }
+
+
 }

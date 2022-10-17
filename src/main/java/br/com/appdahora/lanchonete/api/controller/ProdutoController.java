@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,5 +82,13 @@ public class ProdutoController {
     public List<Produto> produtosPorNome(String nome) {
         return produtoRepository.findByNome(nome);
     }
+
+    @GetMapping("/por-preco")
+    public List<Produto>   produtosPorPreco(BigDecimal precoInicial, BigDecimal precoFinal) {
+
+        return  produtoRepository.findByPrecoBetween(precoInicial, precoFinal);
+
+    }
+
 
 }
