@@ -64,15 +64,18 @@ public class EmpresaController {
 
     @DeleteMapping("/{empresaId}")
     public ResponseEntity<Empresa>  remover (@PathVariable Long empresaId){
-        try{
-            cadastroEmpresaService.remover(empresaId);
+        Empresa empresa =  empresaRepository.findById(empresaId);
+
+        if(empresa !=null) {
+            empresaRepository.deleteById(empresaId);
             return ResponseEntity.noContent().build();
-        } catch (EntidadeEmUsoException e){ //tratando violação de chave
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/por-nome")
+    public List<Empresa> empresaPorNome(@RequestParam("nome") String nome) {
+        return empresaRepository.consultarPorNome(nome);
     }
 
 }

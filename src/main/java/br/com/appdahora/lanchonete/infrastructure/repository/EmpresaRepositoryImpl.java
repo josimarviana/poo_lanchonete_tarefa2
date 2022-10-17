@@ -27,7 +27,6 @@ public class EmpresaRepositoryImpl implements EmpresaRepository {
     @Override
     @Transactional
     public Empresa save(Empresa empresa) {
-        System.out.println("empresa: "+empresa.getId());
         return manager.merge(empresa);
     }
     @Override
@@ -39,8 +38,6 @@ public class EmpresaRepositoryImpl implements EmpresaRepository {
         }
         manager.remove(empresa);
     }
-
-
     public List<Empresa> consultarPorNome(String nome) {
         return manager.createQuery("from Empresa where nome like :nome", Empresa.class)
                 .setParameter("nome", "%" + nome + "%")
