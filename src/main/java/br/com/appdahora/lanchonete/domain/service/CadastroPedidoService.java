@@ -26,7 +26,7 @@ public class CadastroPedidoService {
         Long clienteId = pedido.getCliente().getId();
         Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 
-        if (cliente.isEmpty()) {
+        if (cliente.isEmpty()) {  //verifica se tem algum cliente dentro do optional
             throw new EntidadeNaoEncontradaException(
                 String.format("Não existe cadastro de cliente com o código %d", clienteId)
             );

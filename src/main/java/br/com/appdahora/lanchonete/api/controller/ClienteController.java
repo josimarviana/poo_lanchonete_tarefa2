@@ -79,7 +79,7 @@ public class ClienteController {
 
         try{
             Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId);
-            if (clienteAtual != null) {
+            if (clienteAtual.isPresent()) {
                 BeanUtils.copyProperties(cliente, clienteAtual.get(), "id");
                 Cliente clienteSalvo = cadastroClienteService.salvar(clienteAtual.get());
                 return ResponseEntity.ok(clienteSalvo);
@@ -98,7 +98,7 @@ public class ClienteController {
         //Map para maior controle de chave e valor, onde valor é um objeto
         Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId); //recuperando do banco
 
-        if (clienteAtual == null){
+        if (clienteAtual.isPresent()){
             return ResponseEntity.notFound().build();
         }
 

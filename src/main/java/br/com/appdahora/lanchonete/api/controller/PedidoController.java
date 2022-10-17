@@ -56,16 +56,14 @@ public class PedidoController {
         catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
     @PutMapping("/{pedidoId}")
     public ResponseEntity<?> atualizar(@PathVariable Long pedidoId, @RequestBody Pedido pedido){
 
-
         try{
             Optional<Pedido>  pedidoAtual =  pedidoRepository.findById(pedidoId);
-            if (pedidoAtual != null) {
+            if (pedidoAtual.isPresent()) { //verifica se está vazio
                 BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id");
                 Pedido pedidoSalvo = cadastroPedidoService.salvar(pedidoAtual.get());
                 return ResponseEntity.ok(pedidoSalvo);
