@@ -5,6 +5,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Empresa;
+import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -183,5 +185,11 @@ public class ClienteController {
 
     }
 
+    @GetMapping("/por-data-nascimento")
+    public List<Cliente>  clientesPorDataNascimento(LocalDate dataNascimento) {
+
+        return  clienteRepository.findByDataNascimento(dataNascimento);
+
+    }
 
 }

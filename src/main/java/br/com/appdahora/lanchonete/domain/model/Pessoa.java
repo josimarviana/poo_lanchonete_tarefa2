@@ -25,9 +25,9 @@ public abstract class Pessoa {
     protected String telefone;
     @Column(length = 40)
     protected String email;
-    @JsonIgnore //inibi na representação
     protected LocalDate dataNascimento;
-
+    @JsonIgnore //inibi na representação
+    protected String usuario;
 }
 
 
