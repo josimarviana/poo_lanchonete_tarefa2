@@ -16,12 +16,12 @@ public class CadastroClienteService {
 
     public Cliente salvar (Cliente cliente){
         //regras de negócio
-        return clienteRepository.salvar(cliente);
+        return clienteRepository.save(cliente);
     }
 
     public void remover(Long clienteId){
         try {
-            clienteRepository.deleteByClienteID(clienteId);
+            clienteRepository.deleteById(clienteId);
         }
         catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

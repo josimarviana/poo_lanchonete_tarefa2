@@ -1,12 +1,9 @@
 package br.com.appdahora.lanchonete.domain.repository;
 
 import br.com.appdahora.lanchonete.domain.model.Produto;
-
-import java.util.List;
-
-public interface ProdutoRepository {
-    List<Produto> listar();
-    Produto buscar(Long id);
-    Produto salvar(Produto produto);
-    void remover(Long id);
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+    //List<Produto> consultarPorNome(String nome);
 }

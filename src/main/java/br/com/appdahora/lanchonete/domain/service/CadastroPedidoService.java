@@ -11,6 +11,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CadastroPedidoService {
     @Autowired
@@ -22,21 +24,21 @@ public class CadastroPedidoService {
     public Pedido salvar (Pedido pedido){
 
         Long clienteId = pedido.getCliente().getId();
-        Cliente cliente = clienteRepository.findByClienteId(clienteId);
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 
-        if (cliente == null) {
+        if (cliente.isEmpty()) {
             throw new EntidadeNaoEncontradaException(
                 String.format("Não existe cadastro de cliente com o código %d", clienteId)
             );
         }
-        pedido.setCliente(cliente);
-        return pedidoRepository.salvar(pedido);
+        pedido.setCliente(cliente.get());
+        return pedidoRepository.save(pedido);
 
     }
 
     public void remover(Long pedidoId){
         try {
-            pedidoRepository.remover(pedidoId);
+            pedidoRepository.deleteById(pedidoId);
         }
         catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(

@@ -2,7 +2,9 @@ package br.com.appdahora.lanchonete.domain.service;
 
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.model.Empresa;
 import br.com.appdahora.lanchonete.domain.model.Produto;
+import br.com.appdahora.lanchonete.domain.repository.EmpresaRepository;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,26 +12,26 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroProdutoService {
+public class CadastroEmpresaService {
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private EmpresaRepository empresaRepository;
 
-    public Produto salvar (Produto produto){
+    public Empresa salvar (Empresa empresa){
         //regras de negócio
-        return produtoRepository.save(produto);
+        return empresaRepository.save(empresa);
     }
 
-    public void remover(Long produtoId){
+    public void remover(Long empresaId){
         try {
-            produtoRepository.deleteById(produtoId);
+            empresaRepository.deleteById(empresaId);
         }
         catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(
-                    String.format("Produto de código %d não pode ser encontrado", produtoId));
+                    String.format("Empresa de código %d não pode ser encontrado", empresaId));
         }
         catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(
-                    String.format("Produto de código %d não pode ser removida, pois está em uso", produtoId));
+                    String.format("Empresa de código %d não pode ser removida, pois está em uso", empresaId));
         }
     }
 

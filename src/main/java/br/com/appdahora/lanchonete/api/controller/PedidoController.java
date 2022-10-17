@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController //Equivalente a @Controller e @ResponseBody
 @RequestMapping("/pedidos")
@@ -26,19 +27,19 @@ public class PedidoController {
     
     @GetMapping
     public List<Pedido> listar(){
-        return pedidoRepository.listar();
+        return pedidoRepository.findAll();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public PedidosXmlWrapper listarXML(){
-        return new PedidosXmlWrapper(pedidoRepository.listar());
+        return new PedidosXmlWrapper(pedidoRepository.findAll());
     }
 
     @GetMapping("/{pedidoId}")
     public ResponseEntity<Pedido> buscar(@PathVariable Long pedidoId){
-        Pedido pedido =  pedidoRepository.buscar(pedidoId);
-        if(pedido !=null) {
-            return ResponseEntity.ok(pedido);
+        Optional<Pedido> pedido =  pedidoRepository.findById(pedidoId);
+        if(pedido.isPresent()) {
+            return ResponseEntity.ok(pedido.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -63,11 +64,11 @@ public class PedidoController {
 
 
         try{
-            Pedido pedidoAtual =  pedidoRepository.buscar(pedidoId);
+            Optional<Pedido>  pedidoAtual =  pedidoRepository.findById(pedidoId);
             if (pedidoAtual != null) {
-                BeanUtils.copyProperties(pedido, pedidoAtual, "id");
-                pedidoAtual = cadastroPedidoService.salvar(pedidoAtual);
-                return ResponseEntity.ok(pedidoAtual);
+                BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id");
+                Pedido pedidoSalvo = cadastroPedidoService.salvar(pedidoAtual.get());
+                return ResponseEntity.ok(pedidoSalvo);
             }
             return ResponseEntity.notFound().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave

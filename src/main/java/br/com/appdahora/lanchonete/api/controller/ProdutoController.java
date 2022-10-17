@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController //Equivalente a @Controller e @ResponseBody
 @RequestMapping("/produtos")
@@ -27,19 +28,19 @@ public class ProdutoController {
     
     @GetMapping
     public List<Produto> listar(){
-        return produtoRepository.listar();
+        return produtoRepository.findAll();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ProdutosXmlWrapper listarXML(){
-        return new ProdutosXmlWrapper(produtoRepository.listar());
+        return new ProdutosXmlWrapper(produtoRepository.findAll());
     }
 
     @GetMapping("/{produtoId}")
     public ResponseEntity<Produto> buscar(@PathVariable Long produtoId){
-        Produto produto =  produtoRepository.buscar(produtoId);
-        if(produto !=null) {
-            return ResponseEntity.ok(produto);
+        Optional<Produto> produto =  produtoRepository.findById(produtoId);
+        if(produto.isPresent()) {
+            return ResponseEntity.ok(produto.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -52,13 +53,13 @@ public class ProdutoController {
 
     @PutMapping("/{produtoId}")
     public ResponseEntity<Produto> atualizar(@PathVariable Long produtoId, @RequestBody Produto produto){
-        Produto produtoAtual =  produtoRepository.buscar(produtoId);
+        Optional<Produto> produtoAtual =  produtoRepository.findById(produtoId);
 
-        if(produtoAtual != null){
+        if(produtoAtual.isPresent()){
             // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
-            BeanUtils.copyProperties(produto, produtoAtual, "id");
-            produtoAtual = cadastroProdutoService.salvar(produtoAtual);
-            return ResponseEntity.ok(produtoAtual);
+            BeanUtils.copyProperties(produto, produtoAtual.get(), "id");
+            Produto produtoSalvo = cadastroProdutoService.salvar(produtoAtual.get());
+            return ResponseEntity.ok(produtoSalvo);
         }
         return ResponseEntity.notFound().build();
     }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController //Equivalente a @Controller e @ResponseBody
 @RequestMapping("/clientes")
@@ -34,11 +35,11 @@ public class ClienteController {
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Cliente> listar(){
 
-        return clienteRepository.listar();
+        return clienteRepository.findAll();
     }
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ClientesXmlWrapper listarXML(){
-        return new ClientesXmlWrapper(clienteRepository.listar());
+        return new ClientesXmlWrapper(clienteRepository.findAll());
     }
 
    /* resposta simples
@@ -51,11 +52,11 @@ public class ClienteController {
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
     public ResponseEntity<Cliente>  buscar(@PathVariable Long clienteId){
-        Cliente cliente =  clienteRepository.findByClienteId(clienteId);
+        Optional<Cliente> cliente =  clienteRepository.findById(clienteId);
 
-        if(cliente !=null) {
+        if(cliente.isPresent()) {
             // return ResponseEntity.status(HttpStatus.OK).body(cliente); ou
-            return ResponseEntity.ok(cliente);
+            return ResponseEntity.ok(cliente.get());
         }
 
         //return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); ou
@@ -77,11 +78,11 @@ public class ClienteController {
     public ResponseEntity<?> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
 
         try{
-            Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId);
+            Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId);
             if (clienteAtual != null) {
-                BeanUtils.copyProperties(cliente, clienteAtual, "id");
-                clienteAtual = cadastroClienteService.salvar(clienteAtual);
-                return ResponseEntity.ok(clienteAtual);
+                BeanUtils.copyProperties(cliente, clienteAtual.get(), "id");
+                Cliente clienteSalvo = cadastroClienteService.salvar(clienteAtual.get());
+                return ResponseEntity.ok(clienteSalvo);
             }
             return ResponseEntity.notFound().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
@@ -95,15 +96,15 @@ public class ClienteController {
     @PatchMapping("/{clienteId}")
     public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @RequestBody Map<String, Object> campos){
         //Map para maior controle de chave e valor, onde valor é um objeto
-        Cliente clienteAtual =  clienteRepository.findByClienteId(clienteId); //recuperando do banco
+        Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId); //recuperando do banco
 
         if (clienteAtual == null){
             return ResponseEntity.notFound().build();
         }
 
-        merge(campos, clienteAtual);
+        merge(campos, clienteAtual.get());
 
-        return atualizar(clienteId, clienteAtual);
+        return atualizar(clienteId, clienteAtual.get());
 
     }
 
@@ -135,8 +136,10 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+    /*
     @GetMapping("/por-nome")
     public List<Cliente> clientesPorNome(@RequestParam("nome") String nome) {
         return clienteRepository.consultarPorNome(nome);
     }
+     */
 }
