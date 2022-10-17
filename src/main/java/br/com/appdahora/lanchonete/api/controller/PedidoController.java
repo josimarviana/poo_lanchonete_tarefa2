@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.api.controller;
 import br.com.appdahora.lanchonete.api.model.PedidosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
@@ -96,6 +97,19 @@ public class PedidoController {
         }
     }
 
+    @GetMapping("/por-cliente-nome")
+    public List<Pedido>  clientesPorNome(@RequestParam("nome") String nome) {
+
+        return  pedidoRepository.consultaporClienteNome(nome);
+
+    }
+
+    @GetMapping("/por-cliente-cpf")
+    public List<Pedido>  clientesPorCpf(@RequestParam("cpf") String cpf) {
+
+        return  pedidoRepository.consultaporClienteCpf(cpf);
+
+    }
     @GetMapping("/por-data-criacao")
     public List<Pedido>  pedidosPorDataCriacao(LocalDate dataCriacao) {
 
