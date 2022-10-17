@@ -4,6 +4,7 @@ import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
+import br.com.appdahora.lanchonete.domain.model.Empresa;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -136,10 +137,49 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
-    /*
+
     @GetMapping("/por-nome")
-    public List<Cliente> clientesPorNome(@RequestParam("nome") String nome) {
-        return clienteRepository.consultarPorNome(nome);
+    public List<Cliente> clientesPorNome(String nome) {
+
+        return clienteRepository.findByNome(nome);
     }
-     */
+
+    @GetMapping("/por-cpf")
+    public ResponseEntity<Cliente>  clientesPorCpf(String cpf) {
+
+        Cliente cliente =  clienteRepository.findByCpf(cpf);
+
+        if(cliente != null) {
+            return ResponseEntity.ok(cliente);
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
+
+    @GetMapping("/por-email")
+    public ResponseEntity<Cliente>  clientesPorEmail(String email) {
+
+        Cliente cliente =  clienteRepository.findByEmail(email);
+
+        if(cliente != null) {
+            return ResponseEntity.ok(cliente);
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
+
+    @GetMapping("/por-telefone")
+    public ResponseEntity<Cliente>  clientesPorTelefone(String telefone) {
+
+        Cliente cliente =  clienteRepository.findByTelefone(telefone);
+
+        if(cliente != null) {
+            return ResponseEntity.ok(cliente);
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
 }

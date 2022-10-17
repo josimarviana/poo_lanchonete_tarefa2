@@ -77,4 +77,9 @@ public class ProdutoController {
         }
     }
 
+    @GetMapping("/por-nome")
+    public List<Produto> produtosPorNome(String nome) {
+        return produtoRepository.findByNome(nome);
+    }
+
 }
