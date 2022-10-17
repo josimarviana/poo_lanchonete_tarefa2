@@ -24,10 +24,11 @@ public class Pedido {
     private LocalDate dataEntrega;
     private LocalDate dataCancelamento;
     private StatusPedido statusPedido;
+
     @ManyToOne
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Cliente cliente;
-    @ManyToMany
+    @OneToMany
     private List<ItemPedido> itemPedidos;
 
 }

@@ -5,6 +5,12 @@ insert into produto (nome, descricao, preco) values ('Sanduiche Ixe', 'Sancuiche
 insert into produto (nome, descricao, preco) values ('Sanduiche Promo', 'Sancuiche Promo', 10);
 insert into produto (nome, descricao, preco) values ('Sanduiche Mega', 'Sancuiche Mega', 30);
 insert into pedido (data_criacao, valor_total, cliente_id) values ('2022-10-13', 20.00, 1);
+insert into pedido (data_criacao, valor_total, cliente_id) values ('2022-10-15', 20.00, 2);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total) values (1, 1, 20, 20);
+insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total) values (2, 1, 10, 10);
+insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total) values (3, 1, 30, 30);
+--insert into item_pedido (pedido_id, produto_id, quantidade, preco_unitario, preco_total) values (1, 1, 1, 20, 20);
 insert into pedido_item_pedidos (pedido_id, item_pedidos_id) values (1, 1);
+insert into pedido_item_pedidos (pedido_id, item_pedidos_id) values (1, 2);
+insert into pedido_item_pedidos (pedido_id, item_pedidos_id) values (2, 3);
 insert into empresa (nome, descricao) values ("galpao", "galpao do hamburguer");

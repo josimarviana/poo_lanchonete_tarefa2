@@ -4,8 +4,6 @@ import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
-import br.com.appdahora.lanchonete.domain.model.Empresa;
-import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
