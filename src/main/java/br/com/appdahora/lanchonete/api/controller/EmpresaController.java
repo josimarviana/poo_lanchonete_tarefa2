@@ -61,7 +61,7 @@ public class EmpresaController {
         }
         return ResponseEntity.notFound().build();
     }
-
+    //TODO: Inserir atualizar parcial no controller empresa
     @DeleteMapping("/{empresaId}")
     public ResponseEntity<Empresa>  remover (@PathVariable Long empresaId){
         Empresa empresa =  empresaRepository.findById(empresaId);
