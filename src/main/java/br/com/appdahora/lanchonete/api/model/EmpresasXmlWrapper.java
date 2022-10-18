@@ -1,7 +1,6 @@
 package br.com.appdahora.lanchonete.api.model;
 
-import br.com.appdahora.lanchonete.domain.model.Empresa;
-import br.com.appdahora.lanchonete.domain.model.Produto;
+import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -16,6 +15,6 @@ public class EmpresasXmlWrapper {
     @JsonProperty("empresa")
     @JacksonXmlElementWrapper(useWrapping = false)
     @NonNull //obriga @Data a gerar construtor clientes
-    private List<Empresa> empresas;
+    private List<Restaurante> restaurantes;
 
 }

@@ -65,7 +65,7 @@ public class PedidoController {
         try{
             Optional<Pedido>  pedidoAtual =  pedidoRepository.findById(pedidoId);
             if (pedidoAtual.isPresent()) { //verifica se está vazio
-                BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id", "itemPedido");
+                BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id", "itemPedido", "dataCriacao");
                 Pedido pedidoSalvo = cadastroPedidoService.salvar(pedidoAtual.get());
                 return ResponseEntity.ok(pedidoSalvo);
             }
