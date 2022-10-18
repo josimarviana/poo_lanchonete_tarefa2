@@ -29,6 +29,11 @@ public class Pedido {
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Cliente cliente;
     @OneToMany
-    private List<ItemPedido> itensPedido;
+    /* @JoinTable(name="nometabelameio", joinColumns = @JoinColumn(name="nomecolunachavePedido"),
+    // inverseJoinColumns = @JoinColumn(name="nomecolunachaveItemPedido"))
+    // para customizar nome da tabela e campos intermediários
+    */
+    private List<ItemPedido> itemPedido;
+
 
 }
