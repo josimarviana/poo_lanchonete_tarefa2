@@ -29,6 +29,6 @@ public class Pedido {
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Cliente cliente;
     @OneToMany
-    private List<ItemPedido> itemPedidos;
+    private List<ItemPedido> itensPedido;
 
 }
