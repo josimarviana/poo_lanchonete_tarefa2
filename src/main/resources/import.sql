@@ -14,3 +14,6 @@ insert into pedido_item_pedido (pedido_id, item_pedido_id) values (1, 1);
 insert into pedido_item_pedido (pedido_id, item_pedido_id) values (1, 2);
 insert into pedido_item_pedido (pedido_id, item_pedido_id) values (2, 3);
 insert into empresa (nome, descricao) values ("galpao", "galpao do hamburguer");
+update cliente set endereco_logradouro="x", endereco_numero="71", endereco_bairro="centro", endereco_cidade="Paracatu", endereco_estado="MG", endereco_cep="38600000" where id = 1;
+update cliente set endereco_logradouro="y", endereco_numero="72", endereco_bairro="centro", endereco_cidade="Paracatu", endereco_estado="MG", endereco_cep="38600000" where id = 2;
+update cliente set endereco_logradouro="z", endereco_numero="73", endereco_bairro="centro", endereco_cidade="Paracatu", endereco_estado="MG", endereco_cep="38600000" where id = 3;

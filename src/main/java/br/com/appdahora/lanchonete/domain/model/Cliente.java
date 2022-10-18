@@ -22,6 +22,9 @@ public class Cliente extends Pessoa{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonIgnore
+    @Embedded
+    private Endereco endereco;
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 }
