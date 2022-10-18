@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,8 +37,9 @@ public class Pedido {
     private LocalDate dataEntrega;
     private LocalDate dataCancelamento;
     private StatusPedido statusPedido;
-
-    @ManyToOne
+    //@JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Cliente cliente;
     @OneToMany

@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,7 +20,8 @@ public class Produto {
     private String descricao;
     private BigDecimal preco;
     private Boolean ativo;
-    @JsonIgnore
-    @ManyToOne
+    //@JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     private Restaurante restaurante;
 }

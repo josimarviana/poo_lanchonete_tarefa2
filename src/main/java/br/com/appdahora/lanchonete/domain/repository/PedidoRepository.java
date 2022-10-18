@@ -10,7 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-
+    @Query("from Pedido p join p.cliente") //resolvendo problema n+1 com fetch join na JPQL
+    List<Pedido> findAll();
     List<Pedido> findByDataCriacao(LocalDate dataCriacao);
     List<Pedido> findByDataCriacaoBetween(LocalDate valorInicial, LocalDate valorFinal);
     List<Pedido> findByDataCriacaoBetweenAndClienteId(LocalDate valorInicial, LocalDate valorFinal, Long clienteId);
