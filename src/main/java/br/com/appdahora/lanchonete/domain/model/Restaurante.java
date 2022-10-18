@@ -20,6 +20,11 @@ public class Restaurante {
     @Column(length = 100)
     private String descricao;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Cozinha cozinha;
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos;
