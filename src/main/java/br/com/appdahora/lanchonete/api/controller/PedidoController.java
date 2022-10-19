@@ -124,4 +124,11 @@ public class PedidoController {
         return  pedidoRepository.findByDataCriacaoBetweenAndClienteId(dataCriacaoInicial, dataCriacaoFinal, clienteId);
 
     }
+
+    @GetMapping("/por-restaurante")
+    public List<Pedido>  pedidosPorRestaurante(Long restaurante) {
+
+        return  pedidoRepository.findByRestauranteId(restaurante);
+
+    }
 }

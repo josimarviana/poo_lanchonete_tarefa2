@@ -1,16 +1,12 @@
 package br.com.appdahora.lanchonete.domain.repository;
 
+import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RestauranteRepository {
-
-    List<Restaurante> findAll();
-    Restaurante findById(Long id);
-    Restaurante save(Restaurante restaurante);
-    void deleteById(Long id);
-    List<Restaurante> consultarPorNome(String nome);
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
+    List<Restaurante> findByNomeContaining(String nome);
 
 }

@@ -10,9 +10,9 @@ import lombok.NonNull;
 import java.util.List;
 
 @Data
-@JacksonXmlRootElement(localName = "empresas")
-public class EmpresasXmlWrapper {
-    @JsonProperty("empresa")
+@JacksonXmlRootElement(localName = "restaurantes")
+public class RestaurantesXmlWrapper {
+    @JsonProperty("restaurante")
     @JacksonXmlElementWrapper(useWrapping = false)
     @NonNull //obriga @Data a gerar construtor clientes
     private List<Restaurante> restaurantes;

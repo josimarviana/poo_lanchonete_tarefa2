@@ -17,4 +17,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findAll();
     List<Produto> findByNome(String nome);
     List<Produto> findByPrecoBetween(BigDecimal valorInicial, BigDecimal valorFinal);
+
+    List<Produto> findByRestauranteId(Long restauranteId);
+
 }

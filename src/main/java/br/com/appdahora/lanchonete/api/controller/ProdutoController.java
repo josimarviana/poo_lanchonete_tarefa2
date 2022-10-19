@@ -4,6 +4,7 @@ import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
+import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroProdutoService;
@@ -90,5 +91,10 @@ public class ProdutoController {
 
     }
 
+    @GetMapping("/por-restaurante")
+    public List<Produto>  pedidosPorRestaurante(Long restaurante) {
 
+        return  produtoRepository.findByRestauranteId(restaurante);
+
+    }
 }

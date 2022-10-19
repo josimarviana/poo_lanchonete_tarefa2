@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.domain.repository;
 
+import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     @Query("from Pedido where cliente.cpf = :cpf") //usando query customizada
     List<Pedido> consultaporClienteCpf(@Param("cpf") String  cpf);
+
+    List<Pedido> findByRestauranteId(Long id);
 
 }

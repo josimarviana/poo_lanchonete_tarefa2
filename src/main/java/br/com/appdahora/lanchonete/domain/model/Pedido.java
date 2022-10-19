@@ -49,4 +49,9 @@ public class Pedido {
     */
     private List<ItemPedido> itemPedido;
 
+    //@JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
+    private Restaurante restaurante;
+
 }
