@@ -2,8 +2,7 @@ package br.com.appdahora.lanchonete.domain.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @Data
 @Embeddable
@@ -18,8 +17,7 @@ public class Endereco {
     private String complemento;
     @Column(length = 40, name = "endereco_bairro")
     private String  bairro;
-    @Column(name = "endereco_cidade")
-    private String cidade;
-    @Column(length = 2, name = "endereco_estado")
-    private String estado;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_cidade_id")
+    private Cidade cidade;
 }

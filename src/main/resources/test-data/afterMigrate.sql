@@ -1,3 +1,28 @@
+set foreign_key_checks = 0;
+delete from pedido_item_pedido;
+delete from pedido_item_pedido;
+delete from pedido_item_pedido;
+delete from item_pedido;
+delete from pedido;
+delete from produto;
+delete from restaurante;
+delete from cozinha;
+delete from cliente;
+delete from forma_pagamento;
+delete from cidade;
+delete from estado;
+set foreign_key_checks = 1;
+
+alter table cidade forma_pagamento=1;
+alter table cidade cidade=1;
+alter table cidade estado=1;
+alter table cidade item_pedido=1;
+alter table cidade pedido=1;
+alter table cidade produto=1;
+alter table cidade restaurante=1;
+alter table cidade cozinha=1;
+alter table cidade cliente=1;
+
 insert into estado (id, nome) values (1, 'Minas Gerais');
 insert into estado (id, nome) values (2, 'São Paulo');
 insert into estado (id, nome) values (3, 'Ceará');
