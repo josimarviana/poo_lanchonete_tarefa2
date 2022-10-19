@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -36,18 +37,18 @@ public class Pedido {
     private LocalDate dataConfirmacao;
     private LocalDate dataEntrega;
     private LocalDate dataCancelamento;
-    private StatusPedido statusPedido;
+    private StatusPedido status;
     //@JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Cliente cliente;
-    @OneToMany
+    @OneToMany(mappedBy = "pedido")
     /* @JoinTable(name="nometabelameio", joinColumns = @JoinColumn(name="nomecolunachavePedido"),
     // inverseJoinColumns = @JoinColumn(name="nomecolunachaveItemPedido"))
     // para customizar nome da tabela e campos intermediários
     */
-    private List<ItemPedido> itemPedido;
+    private List<ItemPedido> itemPedido = new ArrayList<>();
 
     //@JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer"})

@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,5 +19,9 @@ public class ItemPedido {
     @OneToOne
     //@JoinColumn(name = "nome_customizado_coluna_join")
     private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Pedido pedido;
 
 }
