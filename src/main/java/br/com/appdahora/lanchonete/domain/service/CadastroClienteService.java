@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.domain.service;
 
-import br.com.appdahora.lanchonete.domain.exception.CPFInvalido;
+import br.com.appdahora.lanchonete.domain.exception.CPFInvalidoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
@@ -22,8 +22,8 @@ public class CadastroClienteService {
         //regras de negócio
 
         if(!validaCPF.isCPF(cliente.getCpf())){
-            throw new CPFInvalido(
-                    String.format("Cliente de código não tem CPF válido")
+            throw new CPFInvalidoException(
+                    String.format("Cliente não tem CPF válido")
             );
         }
         return clienteRepository.save(cliente);
