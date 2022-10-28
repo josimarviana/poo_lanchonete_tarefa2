@@ -1,7 +1,5 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Estado;
 import br.com.appdahora.lanchonete.domain.repository.EstadoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroEstadoService;
@@ -61,7 +59,7 @@ public class EstadoController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{estadoId}")
+ /*   @DeleteMapping("/{estadoId}")
     public ResponseEntity<?> remover(@PathVariable Long estadoId) {
         try {
             cadastroEstado.excluir(estadoId);
@@ -69,11 +67,18 @@ public class EstadoController {
 
         } catch (EntidadeNaoEncontradaException e) {
             return ResponseEntity.notFound().build();
+           // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
 
         } catch (EntidadeEmUsoException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
         }
-    }
+    }*/
 
+    @DeleteMapping("/{estadoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long estadoId) {
+            cadastroEstado.excluir(estadoId);
+
+    }
 }
