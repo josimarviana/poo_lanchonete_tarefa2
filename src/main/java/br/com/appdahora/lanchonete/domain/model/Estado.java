@@ -1,9 +1,12 @@
 package br.com.appdahora.lanchonete.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -17,5 +20,9 @@ public class Estado {
 
     @Column(nullable = false)
     private String nome;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "estado")
+    private List<Cidade> cidades = new ArrayList<>();
 
 }

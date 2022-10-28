@@ -25,16 +25,16 @@ insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('11111
 insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('22222222222', 'Maria Silva', '22555554445', 'maria@gmail.com', '2000-11-28');
 insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('33333333333', 'Jose Pereira', '22555554446', 'jose@gmail.com', '2000-11-28');
 
+insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pimenta', 'Empada Pimenta', 30, 1);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Ixe', 'Sanduiche Ixe', 20, 2);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Promo', 'Sadcuiche Promo', 10, 2);
-insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pimenta', 'Empada Pimenta', 30, 1);
 
 insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id) values (utc_timestamp, utc_timestamp, 20.00, 1, 1);
 insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id) values (utc_timestamp, utc_timestamp, 20.00, 2, 2);
 
-insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (3, 1, 20, 20, 1);
+insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 20, 20, 1);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);
-insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 30, 30, 2);
+insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (3, 1, 30, 30, 2);
 
 update cliente set endereco_logradouro="x", endereco_numero="71", endereco_bairro="centro", endereco_cidade_id=1, endereco_cep="38600000" where id = 1;
 update cliente set endereco_logradouro="y", endereco_numero="72", endereco_bairro="centro", endereco_cidade_id=2, endereco_cep="38600000" where id = 2;

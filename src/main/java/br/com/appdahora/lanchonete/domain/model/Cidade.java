@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.domain.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,7 +20,8 @@ public class Cidade {
     @Column(nullable = false)
     private String nome;
 
-    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Estado estado;
 
