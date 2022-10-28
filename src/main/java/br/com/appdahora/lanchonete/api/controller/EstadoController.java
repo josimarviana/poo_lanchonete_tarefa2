@@ -75,10 +75,25 @@ public class EstadoController {
         }
     }*/
 
+/*    @DeleteMapping("/{estadoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long estadoId) {
+        try {
+            cadastroEstado.excluir(estadoId);
+
+        } catch (
+                EntidadeNaoEncontradaException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+
+            // é possível customizar o HttpStatus e a resposta
+            // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
+        }
+    }*/
+
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long estadoId) {
-            cadastroEstado.excluir(estadoId);
-
+        cadastroEstado.excluir(estadoId);
     }
+
 }
