@@ -20,7 +20,7 @@ public class CadastroEstadoService {
         return estadoRepository.save(estado);
     }
 
-    public void excluir(Long estadoId) {
+    public void remover(Long estadoId) {
         try {
             estadoRepository.deleteById(estadoId);
 

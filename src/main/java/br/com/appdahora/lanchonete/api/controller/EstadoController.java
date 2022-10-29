@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
+import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Estado;
 import br.com.appdahora.lanchonete.domain.repository.EstadoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroEstadoService;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/estados")
@@ -28,14 +28,10 @@ public class EstadoController {
     }
 
     @GetMapping("/{estadoId}")
-    public ResponseEntity<Estado> buscar(@PathVariable Long estadoId) {
-        Optional<Estado> estado = estadoRepository.findById(estadoId);
+    public Estado buscar(@PathVariable Long estadoId) {
+        return estadoRepository.findById(estadoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException(""));
 
-        if (estado.isPresent()) {
-            return ResponseEntity.ok(estado.get());
-        }
-
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -93,7 +89,7 @@ public class EstadoController {
     @DeleteMapping("/{estadoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long estadoId) {
-        cadastroEstado.excluir(estadoId);
+        cadastroEstado.remover(estadoId);
     }
 
 }

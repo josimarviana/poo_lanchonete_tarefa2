@@ -34,7 +34,7 @@ public class CadastroCidadeService {
         return cidadeRepository.save(cidade);
     }
 
-    public void excluir(Long cidadeId) {
+    public void remover(Long cidadeId) {
         try {
             cidadeRepository.deleteById(cidadeId);
 

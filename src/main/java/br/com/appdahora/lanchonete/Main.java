@@ -2,9 +2,9 @@ package br.com.appdahora.lanchonete;
 
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
-import org.springframework.context.ApplicationContext;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Main {
         ApplicationContext applicationContext =  new SpringApplicationBuilder(LanchoneteApplication.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
-        /*
+
         ClienteRepository clientes = applicationContext.getBean(ClienteRepository.class);
 
         //listando todos os clientes
@@ -21,8 +21,11 @@ public class Main {
 
         for (Cliente cliente : todosClientes) {
             System.out.println(cliente.getId()+" - "+cliente.getNome());
+
         }
 
+
+        /*
         //inserção de novo cliente
         Cliente cliente1 = new Cliente();
         cliente1.setNome("Pedro");

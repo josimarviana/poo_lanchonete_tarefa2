@@ -32,7 +32,7 @@ public class CidadeController {
     public ResponseEntity<Cidade> buscar(@PathVariable Long cidadeId) {
         Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
 
-        if (cidade != null) {
+        if (cidade.isPresent()) {
             return ResponseEntity.ok(cidade.get());
         }
 
@@ -79,6 +79,6 @@ public class CidadeController {
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cidadeId) {
-            cadastroCidade.excluir(cidadeId);
+            cadastroCidade.remover(cidadeId);
     }
 }
