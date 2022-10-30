@@ -37,6 +37,7 @@ public class Pedido {
     private LocalDate dataConfirmacao;
     private LocalDate dataEntrega;
     private LocalDate dataCancelamento;
+    @Enumerated(value = EnumType.STRING)
     private StatusPedido status;
 
     //@JsonIgnore

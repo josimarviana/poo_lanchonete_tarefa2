@@ -30,7 +30,7 @@ public class EstadoController {
     @GetMapping("/{estadoId}")
     public Estado buscar(@PathVariable Long estadoId) {
         return estadoRepository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException(""));
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Estado não encontrado"));
 
     }
 
