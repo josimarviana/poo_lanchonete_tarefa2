@@ -1,13 +1,13 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cidade;
 import br.com.appdahora.lanchonete.domain.repository.CidadeRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,58 +30,36 @@ public class CidadeController {
     @GetMapping("/{cidadeId}")
     public Cidade //ResponseEntity<Cidade>
                          buscar(@PathVariable Long cidadeId) {
-/*        Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
-
-        if (cidade.isPresent()) {
-            return ResponseEntity.ok(cidade.get());
-        }
-
-        return ResponseEntity.notFound().build();*/
-
-        return cidadeRepository.findById(cidadeId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cidade não encontrada"));
+        return cadastroCidade.buscarOuFalhar(cidadeId);
     }
 
     @PostMapping
-    public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
+    public Cidade adicionar(@RequestBody Cidade cidade) {
         try {
-            cidade = cadastroCidade.salvar(cidade);
-
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(cidade);
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.badRequest()
-                    .body(e.getMessage());
-        }
+            return cadastroCidade.salvar(cidade);
+        }catch (EntidadeNaoEncontradaException e){
+            throw new NegocioException(e.getMessage());
+    }
     }
 
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long cidadeId,
+    public Cidade atualizar(@PathVariable Long cidadeId,
                                        @RequestBody Cidade cidade) {
+
+        Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
+        BeanUtils.copyProperties(cidade, cidadeAtual, "id");
         try {
-            // Podemos usar o orElse(null) também, que retorna a instância de cidade
-            // dentro do Optional, ou null, caso ele esteja vazio,
-            // mas nesse caso, temos a responsabilidade de tomar cuidado com NullPointerException
-            Cidade cidadeAtual = cidadeRepository.findById(cidadeId).orElse(null);
-
-            if (cidadeAtual != null) {
-                BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-
-                cidadeAtual = cadastroCidade.salvar(cidadeAtual);
-                return ResponseEntity.ok(cidadeAtual);
-            }
-
-            return ResponseEntity.notFound().build();
-
-        } catch (EntidadeNaoEncontradaException e) {
-            return ResponseEntity.badRequest()
-                    .body(e.getMessage());
+            return cadastroCidade.salvar(cidadeAtual);
+        }catch (EntidadeNaoEncontradaException e){
+            throw new NegocioException(e.getMessage());
         }
+
     }
 
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long cidadeId) {
-            cadastroCidade.remover(cidadeId);
+
+        cadastroCidade.remover(cidadeId);
     }
 }
