@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Estado;
 import br.com.appdahora.lanchonete.domain.repository.EstadoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroEstadoService;
@@ -15,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/estados")
 public class EstadoController {
-
     @Autowired
     private EstadoRepository estadoRepository;
 
@@ -24,19 +22,20 @@ public class EstadoController {
 
     @GetMapping
     public List<Estado> listar() {
+
         return estadoRepository.findAll();
     }
 
     @GetMapping("/{estadoId}")
     public Estado buscar(@PathVariable Long estadoId) {
-        return estadoRepository.findById(estadoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Estado não encontrado"));
+        return cadastroEstado.buscarOuFalhar(estadoId);
 
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Estado adicionar(@RequestBody Estado estado) {
+
         return cadastroEstado.salvar(estado);
     }
 
@@ -55,7 +54,13 @@ public class EstadoController {
         return ResponseEntity.notFound().build();
     }
 
- /*   @DeleteMapping("/{estadoId}")
+    @DeleteMapping("/{estadoId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long estadoId) {
+        cadastroEstado.remover(estadoId);
+    }
+
+     /*   @DeleteMapping("/{estadoId}")
     public ResponseEntity<?> remover(@PathVariable Long estadoId) {
         try {
             cadastroEstado.excluir(estadoId);
@@ -85,11 +90,5 @@ public class EstadoController {
             // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");
         }
     }*/
-
-    @DeleteMapping("/{estadoId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long estadoId) {
-        cadastroEstado.remover(estadoId);
-    }
 
 }

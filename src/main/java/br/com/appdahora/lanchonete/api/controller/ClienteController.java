@@ -52,16 +52,10 @@ public class ClienteController {
 
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
-    public ResponseEntity<Cliente>  buscar(@PathVariable Long clienteId){
-        Optional<Cliente> cliente =  clienteRepository.findById(clienteId);
+    public Cliente  buscar(@PathVariable Long clienteId){
 
-        if(cliente.isPresent()) {
-            // return ResponseEntity.status(HttpStatus.OK).body(cliente); ou
-            return ResponseEntity.ok(cliente.get());
-        }
-
-        //return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); ou
-        return ResponseEntity.notFound().build();
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
 
        // Customizando um header
        // HttpHeaders headers = new HttpHeaders();

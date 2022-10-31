@@ -37,12 +37,9 @@ public class PedidoController {
     }
 
     @GetMapping("/{pedidoId}")
-    public ResponseEntity<Pedido> buscar(@PathVariable Long pedidoId){
-        Optional<Pedido> pedido =  pedidoRepository.findById(pedidoId);
-        if(pedido.isPresent()) {
-            return ResponseEntity.ok(pedido.get());
-        }
-        return ResponseEntity.notFound().build();
+    public Pedido buscar(@PathVariable Long pedidoId){
+        return pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Pedido não encontrao"));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP

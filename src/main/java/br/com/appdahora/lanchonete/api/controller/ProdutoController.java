@@ -4,7 +4,6 @@ import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
-import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroProdutoService;
@@ -39,12 +38,9 @@ public class ProdutoController {
     }
 
     @GetMapping("/{produtoId}")
-    public ResponseEntity<Produto> buscar(@PathVariable Long produtoId){
-        Optional<Produto> produto =  produtoRepository.findById(produtoId);
-        if(produto.isPresent()) {
-            return ResponseEntity.ok(produto.get());
-        }
-        return ResponseEntity.notFound().build();
+    public Produto buscar(@PathVariable Long produtoId){
+        return produtoRepository.findById(produtoId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
