@@ -39,7 +39,7 @@ public class RestauranteController {
     @GetMapping("/{restauranteId}")
     public Restaurante buscar(@PathVariable Long restauranteId){
         return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new RestauranteNaoEncontradoException("Restaurante não encontrao"));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException("Restaurante não encontrado"));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP

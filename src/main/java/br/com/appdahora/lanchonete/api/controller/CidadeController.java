@@ -1,7 +1,7 @@
 package br.com.appdahora.lanchonete.api.controller;
 
+import br.com.appdahora.lanchonete.api.exceptionhandler.Problema;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
-import br.com.appdahora.lanchonete.domain.exception.EstadoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cidade;
 import br.com.appdahora.lanchonete.domain.repository.CidadeRepository;
@@ -9,8 +9,10 @@ import br.com.appdahora.lanchonete.domain.service.CadastroCidadeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -39,7 +41,7 @@ public class CidadeController {
         try {
             return cadastroCidade.salvar(cidade);
         }catch (EntidadeNaoEncontradaException e){
-            throw new EstadoNaoEncontradoException(e.getMessage());
+            throw new NegocioException(e.getMessage(), e);
         }
     }
 
@@ -64,4 +66,6 @@ public class CidadeController {
 
         cadastroCidade.remover(cidadeId);
     }
+
+
 }
