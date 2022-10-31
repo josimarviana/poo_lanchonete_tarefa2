@@ -32,6 +32,7 @@ public class CozinhaController {
         return new CozinhasXmlWrapper(cozinhaRepository.findAll());
     }
 
+    //TODO: Ajustar tratamento de exceções nos controllers
     @GetMapping("/{cozinhaId}")
     public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId){
         Cozinha cozinha =  cozinhaRepository.findById(cozinhaId);

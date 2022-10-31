@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.EstadoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cidade;
 import br.com.appdahora.lanchonete.domain.repository.CidadeRepository;
@@ -38,8 +39,8 @@ public class CidadeController {
         try {
             return cadastroCidade.salvar(cidade);
         }catch (EntidadeNaoEncontradaException e){
-            throw new NegocioException(e.getMessage());
-    }
+            throw new EstadoNaoEncontradoException(e.getMessage());
+        }
     }
 
     @PutMapping("/{cidadeId}")
@@ -48,6 +49,7 @@ public class CidadeController {
 
         Cidade cidadeAtual = cadastroCidade.buscarOuFalhar(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
+
         try {
             return cadastroCidade.salvar(cidadeAtual);
         }catch (EntidadeNaoEncontradaException e){

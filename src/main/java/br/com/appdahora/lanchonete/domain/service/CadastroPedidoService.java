@@ -1,7 +1,7 @@
 package br.com.appdahora.lanchonete.domain.service;
 
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.PedidoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
@@ -27,9 +27,7 @@ public class CadastroPedidoService {
         Optional<Cliente> cliente = clienteRepository.findById(clienteId);
 
         if (cliente.isEmpty()) {  //verifica se tem algum cliente dentro do optional
-            throw new EntidadeNaoEncontradaException(
-                String.format("Não existe cadastro de cliente com o código %d", clienteId)
-            );
+            throw new PedidoNaoEncontradoException(clienteId);
         }
         pedido.setCliente(cliente.get());
         return pedidoRepository.save(pedido);
@@ -41,8 +39,7 @@ public class CadastroPedidoService {
             pedidoRepository.deleteById(pedidoId);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Produto de código %d não pode ser encontrado", pedidoId));
+            throw new PedidoNaoEncontradoException(pedidoId);
         }
         catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(

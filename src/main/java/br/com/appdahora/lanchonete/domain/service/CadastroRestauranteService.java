@@ -1,7 +1,7 @@
 package br.com.appdahora.lanchonete.domain.service;
 
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,7 @@ public class CadastroRestauranteService {
             restauranteRepository.deleteById(empresaId);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
-                    String.format("Restaurante de código %d não pode ser encontrado", empresaId));
+            throw new RestauranteNaoEncontradoException(empresaId);
         }
         catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(

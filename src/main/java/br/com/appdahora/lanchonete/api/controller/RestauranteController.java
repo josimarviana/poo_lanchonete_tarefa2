@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.api.controller;
 import br.com.appdahora.lanchonete.api.model.RestaurantesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.repository.RestauranteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroRestauranteService;
@@ -38,7 +39,7 @@ public class RestauranteController {
     @GetMapping("/{restauranteId}")
     public Restaurante buscar(@PathVariable Long restauranteId){
         return restauranteRepository.findById(restauranteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Restaurante não encontrao"));
+                .orElseThrow(() -> new RestauranteNaoEncontradoException("Restaurante não encontrao"));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
@@ -58,7 +59,7 @@ public class RestauranteController {
         }
         return ResponseEntity.notFound().build();
     }
-    //TODO: Inserir atualizar parcial no controller empresa
+    //TODO: Inserir atualizar parcial no controller restaurante
     @DeleteMapping("/{restauranteId}")
     public ResponseEntity<Restaurante>  remover (@PathVariable Long restauranteId){
         try{

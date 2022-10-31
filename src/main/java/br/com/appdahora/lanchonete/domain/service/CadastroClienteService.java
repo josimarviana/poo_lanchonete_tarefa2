@@ -1,8 +1,8 @@
 package br.com.appdahora.lanchonete.domain.service;
 
 import br.com.appdahora.lanchonete.domain.exception.CPFInvalidoException;
+import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.util.ValidaCPF;
@@ -34,7 +34,7 @@ public class CadastroClienteService {
             clienteRepository.deleteById(clienteId);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaException(
+            throw new ClienteNaoEncontradoException(
                     String.format("Cliente de código %d não pode ser encontrado", clienteId));
         }
         catch (DataIntegrityViolationException e) {

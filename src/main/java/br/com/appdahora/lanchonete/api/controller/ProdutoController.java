@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.api.controller;
 import br.com.appdahora.lanchonete.api.model.ProdutosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.ProdutoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
@@ -40,7 +41,7 @@ public class ProdutoController {
     @GetMapping("/{produtoId}")
     public Produto buscar(@PathVariable Long produtoId){
         return produtoRepository.findById(produtoId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Produto não encontrado"));
+                .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP

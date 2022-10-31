@@ -1,8 +1,10 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
+import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
@@ -55,7 +57,7 @@ public class ClienteController {
     public Cliente  buscar(@PathVariable Long clienteId){
 
         return clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
        // Customizando um header
        // HttpHeaders headers = new HttpHeaders();
@@ -66,7 +68,11 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Cliente adicionar (@RequestBody Cliente cliente){
 
-        return cadastroClienteService.salvar(cliente);
+        try {
+            return cadastroClienteService.salvar(cliente);
+        }catch (EntidadeNaoEncontradaException e){
+            throw new NegocioException(e.getMessage());
+        }
     }
 
     @PutMapping("/{clienteId}")
