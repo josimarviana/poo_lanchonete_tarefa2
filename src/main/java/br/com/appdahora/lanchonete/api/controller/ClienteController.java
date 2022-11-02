@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ClienteController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public Cliente adicionar (@RequestBody Cliente cliente){
+    public Cliente adicionar (@Valid  @RequestBody Cliente cliente){
 
         try {
             return cadastroClienteService.salvar(cliente);
@@ -76,7 +77,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{clienteId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long clienteId, @RequestBody Cliente cliente){
+    public ResponseEntity<?> atualizar(@PathVariable Long clienteId, @Valid  @RequestBody Cliente cliente){
 
         try{
             Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId);
@@ -96,7 +97,7 @@ public class ClienteController {
         
     }
     @PatchMapping("/{clienteId}")
-    public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @RequestBody Map<String, Object> campos){
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @Valid  @RequestBody Map<String, Object> campos){
         //Map para maior controle de chave e valor, onde valor é um objeto
         Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId); //recuperando do banco
 
