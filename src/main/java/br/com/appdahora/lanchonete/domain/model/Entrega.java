@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,8 +22,11 @@ public class Entrega {
     private Long id;
     private BigDecimal taxa;
     @Enumerated(EnumType.STRING)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private StatusEntrega statusEntrega;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dataSolicitacao;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime dataFinalizacao;
 
     @Embedded
