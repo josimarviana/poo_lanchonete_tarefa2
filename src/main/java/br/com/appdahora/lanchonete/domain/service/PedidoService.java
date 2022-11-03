@@ -31,7 +31,7 @@ public class PedidoService {
         }
         pedido.setCliente(cliente.get());
         return pedidoRepository.save(pedido);
-
+        //TODO: Criar uma entrega automaticamente
     }
 
     public void remover(Long pedidoId){

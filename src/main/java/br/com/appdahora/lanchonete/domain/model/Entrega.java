@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,4 +27,8 @@ public class Entrega {
 
     @Embedded
     private Endereco endereco;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "entrega")
+    private Pedido pedido;
 }

@@ -5,6 +5,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntregaNaoEncontradaExceptio
 import br.com.appdahora.lanchonete.domain.exception.ProdutoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Entrega;
 import br.com.appdahora.lanchonete.domain.model.StatusEntrega;
+import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.repository.EntregaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,8 +19,12 @@ public class EntregaService {
     @Autowired
     private EntregaRepository entregaRepository;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     public Entrega salvar (Entrega entrega){
         //regras de negócio
+
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
         entrega.setDataSolicitacao(LocalDateTime.now());
         return entregaRepository.save(entrega);
