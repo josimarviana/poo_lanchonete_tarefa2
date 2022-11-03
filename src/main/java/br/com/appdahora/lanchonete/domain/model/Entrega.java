@@ -19,6 +19,7 @@ public class Entrega {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal taxa;
+    @Enumerated(EnumType.STRING)
     private StatusEntrega statusEntrega;
     private LocalDateTime dataPedido;
     private LocalDateTime dataFinalizacao;
