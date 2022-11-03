@@ -21,10 +21,9 @@ public class Entrega {
     private BigDecimal taxa;
     @Enumerated(EnumType.STRING)
     private StatusEntrega statusEntrega;
-    private LocalDateTime dataPedido;
+    private LocalDateTime dataSolicitacao;
     private LocalDateTime dataFinalizacao;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Cliente cliente;
+
     @Embedded
     private Endereco endereco;
 }

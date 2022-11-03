@@ -29,8 +29,11 @@ insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pim
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Ixe', 'Sanduiche Ixe', 20, 2);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Promo', 'Sadcuiche Promo', 10, 2);
 
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id) values (utc_timestamp, utc_timestamp, 20.00, 1, 1);
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id) values (utc_timestamp, utc_timestamp, 20.00, 2, 2);
+insert into entrega (cidade_id, taxa) values (1, 5.00);
+insert into entrega (cidade_id, taxa) values (2, 10.00);
+
+insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, 1);
+insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, 2);
 
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 20, 20, 1);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);
@@ -40,4 +43,3 @@ update cliente set logradouro="x", numero="71", bairro="centro", cidade_id=1, ce
 update cliente set logradouro="y", numero="72", bairro="centro", cidade_id=2, cep="38600000" where id = 2;
 update cliente set logradouro="z", numero="73", bairro="centro", cidade_id=3, cep="38600000" where id = 3;
 
-insert into entrega (cliente_id, cidade_id, taxa) values (1, 1, 5.00);

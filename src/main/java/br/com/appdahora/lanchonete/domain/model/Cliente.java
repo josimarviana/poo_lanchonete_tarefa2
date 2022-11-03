@@ -21,7 +21,7 @@ public class Cliente extends Pessoa{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonIgnore
+
     @Embedded
     private Endereco endereco;
     @JsonIgnore

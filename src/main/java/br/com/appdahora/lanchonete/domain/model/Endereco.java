@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Endereco {
     private String  bairro;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cidade_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Cidade cidade;
     @Column(length = 8, name = "cep")
     private String cep;

@@ -35,7 +35,6 @@ public class Pedido {
     private LocalDateTime dataAtualizacao;
 
     private LocalDate dataConfirmacao;
-    private LocalDate dataEntrega;
     private LocalDate dataCancelamento;
     @Enumerated(value = EnumType.STRING)
     private StatusPedido status;
@@ -58,5 +57,8 @@ public class Pedido {
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     private Restaurante restaurante;
+
+    @OneToOne
+    private Entrega entrega;
 
 }
