@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class CadastroEstadoService {
+public class EstadoService {
     private static final String MSG_ESTADO_EM_USO
             = "Estado de código %d não pode ser removido, pois está em uso";
     @Autowired

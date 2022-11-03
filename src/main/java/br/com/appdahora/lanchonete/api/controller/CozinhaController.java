@@ -3,7 +3,7 @@ package br.com.appdahora.lanchonete.api.controller;
 import br.com.appdahora.lanchonete.api.model.CozinhasXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Cozinha;
 import br.com.appdahora.lanchonete.domain.repository.CozinhaRepository;
-import br.com.appdahora.lanchonete.domain.service.CadastroCozinhaService;
+import br.com.appdahora.lanchonete.domain.service.CozinhaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class CozinhaController {
     private CozinhaRepository cozinhaRepository;
 
     @Autowired
-    private CadastroCozinhaService cadastroCozinhaService;
+    private CozinhaService cozinhaService;
     
     @GetMapping
     public List<Cozinha> listar(){
@@ -45,7 +45,7 @@ public class CozinhaController {
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Cozinha adicionar (@RequestBody Cozinha cozinha){
 
-        return cadastroCozinhaService.salvar(cozinha);
+        return cozinhaService.salvar(cozinha);
     }
 
     @PutMapping("/{cozinhaId}")
@@ -54,7 +54,7 @@ public class CozinhaController {
 
         if(cozinhaAtual != null){
             BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-            Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual);
+            Cozinha cozinhaSalva = cozinhaService.salvar(cozinhaAtual);
             return ResponseEntity.ok(cozinhaSalva);
         }
         return ResponseEntity.notFound().build();

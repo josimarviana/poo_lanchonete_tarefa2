@@ -6,7 +6,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaExcepti
 import br.com.appdahora.lanchonete.domain.exception.PedidoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
-import br.com.appdahora.lanchonete.domain.service.CadastroPedidoService;
+import br.com.appdahora.lanchonete.domain.service.PedidoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class PedidoController {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private CadastroPedidoService cadastroPedidoService;
+    private PedidoService pedidoService;
     
     @GetMapping
     public List<Pedido> listar(){
@@ -47,7 +47,7 @@ public class PedidoController {
     public ResponseEntity<?>  adicionar (@RequestBody Pedido pedido){
 
         try{
-            cadastroPedidoService.salvar(pedido);
+            pedidoService.salvar(pedido);
             return ResponseEntity.ok(pedido);
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -64,7 +64,7 @@ public class PedidoController {
             Optional<Pedido>  pedidoAtual =  pedidoRepository.findById(pedidoId);
             if (pedidoAtual.isPresent()) { //verifica se está vazio
                 BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id", "itemPedido", "dataCriacao");
-                Pedido pedidoSalvo = cadastroPedidoService.salvar(pedidoAtual.get());
+                Pedido pedidoSalvo = pedidoService.salvar(pedidoAtual.get());
                 return ResponseEntity.ok(pedidoSalvo);
             }
             return ResponseEntity.notFound().build();
@@ -80,7 +80,7 @@ public class PedidoController {
     @DeleteMapping("/{pedidoId}")
     public ResponseEntity<Pedido>  remover (@PathVariable Long pedidoId){
         try{
-            cadastroPedidoService.remover(pedidoId);
+            pedidoService.remover(pedidoId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

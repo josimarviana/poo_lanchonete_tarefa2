@@ -7,7 +7,7 @@ import br.com.appdahora.lanchonete.domain.exception.ProdutoNaoEncontradoExceptio
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Produto;
 import br.com.appdahora.lanchonete.domain.repository.ProdutoRepository;
-import br.com.appdahora.lanchonete.domain.service.CadastroProdutoService;
+import br.com.appdahora.lanchonete.domain.service.ProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class ProdutoController {
     private ProdutoRepository produtoRepository;
 
     @Autowired
-    private CadastroProdutoService cadastroProdutoService;
+    private ProdutoService produtoService;
     
     @GetMapping
     public List<Produto> listar(){
@@ -47,7 +47,7 @@ public class ProdutoController {
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Produto adicionar (@RequestBody Produto produto){
 
-        return cadastroProdutoService.salvar(produto);
+        return produtoService.salvar(produto);
     }
 
     @PutMapping("/{produtoId}")
@@ -57,7 +57,7 @@ public class ProdutoController {
         if(produtoAtual.isPresent()){
             // produtoAtual.setNome(produto.getNome()); //forma trabalhosa
             BeanUtils.copyProperties(produto, produtoAtual.get(), "id");
-            Produto produtoSalvo = cadastroProdutoService.salvar(produtoAtual.get());
+            Produto produtoSalvo = produtoService.salvar(produtoAtual.get());
             return ResponseEntity.ok(produtoSalvo);
         }
         return ResponseEntity.notFound().build();
@@ -66,7 +66,7 @@ public class ProdutoController {
     @DeleteMapping("/{produtoId}")
     public ResponseEntity<Cliente>  remover (@PathVariable Long produtoId){
         try{
-            cadastroProdutoService.remover(produtoId);
+            produtoService.remover(produtoId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

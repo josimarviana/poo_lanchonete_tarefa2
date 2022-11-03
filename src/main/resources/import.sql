@@ -36,6 +36,8 @@ insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pe
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (3, 1, 30, 30, 2);
 
-update cliente set endereco_logradouro="x", endereco_numero="71", endereco_bairro="centro", endereco_cidade_id=1, endereco_cep="38600000" where id = 1;
-update cliente set endereco_logradouro="y", endereco_numero="72", endereco_bairro="centro", endereco_cidade_id=2, endereco_cep="38600000" where id = 2;
-update cliente set endereco_logradouro="z", endereco_numero="73", endereco_bairro="centro", endereco_cidade_id=3, endereco_cep="38600000" where id = 3;
+update cliente set logradouro="x", numero="71", bairro="centro", cidade_id=1, cep="38600000" where id = 1;
+update cliente set logradouro="y", numero="72", bairro="centro", cidade_id=2, cep="38600000" where id = 2;
+update cliente set logradouro="z", numero="73", bairro="centro", cidade_id=3, cep="38600000" where id = 3;
+
+insert into entrega (cliente_id, cidade_id, taxa) values (1, 1, 5.00);

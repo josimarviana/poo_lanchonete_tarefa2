@@ -7,7 +7,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaExcepti
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
-import br.com.appdahora.lanchonete.domain.service.CadastroClienteService;
+import br.com.appdahora.lanchonete.domain.service.ClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private CadastroClienteService cadastroClienteService;
+    private ClienteService clienteService;
 
     // @CrossOrigin // para liberar o CORS
     // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
@@ -70,7 +70,7 @@ public class ClienteController {
     public Cliente adicionar (@Valid  @RequestBody Cliente cliente){
 
         try {
-            return cadastroClienteService.salvar(cliente);
+            return clienteService.salvar(cliente);
         }catch (EntidadeNaoEncontradaException e){
             throw new NegocioException(e.getMessage());
         }
@@ -84,7 +84,7 @@ public class ClienteController {
 
             if (clienteAtual.isPresent()) {
                 BeanUtils.copyProperties(cliente, clienteAtual.get(), "id", "endereco");
-                Cliente clienteSalvo = cadastroClienteService.salvar(clienteAtual.get());
+                Cliente clienteSalvo = clienteService.salvar(clienteAtual.get());
                 return ResponseEntity.ok(clienteSalvo);
             }
             return ResponseEntity.notFound().build();
@@ -130,7 +130,7 @@ public class ClienteController {
     @DeleteMapping("/{clienteId}")
     public ResponseEntity<Cliente>  remover (@PathVariable Long clienteId){
         try{
-            cadastroClienteService.remover(clienteId);
+            clienteService.remover(clienteId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

@@ -12,7 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CadastroClienteService {
+public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 

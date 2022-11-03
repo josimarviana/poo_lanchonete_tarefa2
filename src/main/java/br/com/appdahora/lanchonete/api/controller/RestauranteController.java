@@ -6,7 +6,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaExcepti
 import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.repository.RestauranteRepository;
-import br.com.appdahora.lanchonete.domain.service.CadastroRestauranteService;
+import br.com.appdahora.lanchonete.domain.service.RestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class RestauranteController {
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private CadastroRestauranteService cadastroRestauranteService;
+    private RestauranteService restauranteService;
     
     @GetMapping
     public List<Restaurante> listar(){
@@ -45,7 +45,7 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
     public Restaurante adicionar (@RequestBody Restaurante restaurante){
 
-        return cadastroRestauranteService.salvar(restaurante);
+        return restauranteService.salvar(restaurante);
     }
 
     @PutMapping("/{restauranteId}")
@@ -54,7 +54,7 @@ public class RestauranteController {
 
         if(restauranteAtual.isPresent()){
             BeanUtils.copyProperties(restaurante, restauranteAtual.get(), "id");
-            Restaurante restauranteSalva = cadastroRestauranteService.salvar(restauranteAtual.get());
+            Restaurante restauranteSalva = restauranteService.salvar(restauranteAtual.get());
             return ResponseEntity.ok(restauranteSalva);
         }
         return ResponseEntity.notFound().build();
@@ -63,7 +63,7 @@ public class RestauranteController {
     @DeleteMapping("/{restauranteId}")
     public ResponseEntity<Restaurante>  remover (@PathVariable Long restauranteId){
         try{
-            cadastroRestauranteService.remover(restauranteId);
+            restauranteService.remover(restauranteId);
             return ResponseEntity.noContent().build();
         } catch (EntidadeEmUsoException e){ //tratando violação de chave
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

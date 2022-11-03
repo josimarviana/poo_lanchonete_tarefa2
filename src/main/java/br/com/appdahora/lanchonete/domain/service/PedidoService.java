@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CadastroPedidoService {
+public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
