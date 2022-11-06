@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -33,7 +33,7 @@ public abstract class Pessoa {
     @Email
     @Size(max = 40)
     protected String email;
-    protected LocalDate dataNascimento;
+    protected OffsetDateTime dataNascimento;
     @JsonIgnore //inibi na representação
     protected String usuario;
 }

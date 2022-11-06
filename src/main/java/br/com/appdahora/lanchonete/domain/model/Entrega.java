@@ -9,7 +9,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -25,9 +26,9 @@ public class Entrega {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private StatusEntrega statusEntrega;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataSolicitacao;
+    private OffsetDateTime dataSolicitacao;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataFinalizacao;
+    private OffsetDateTime dataFinalizacao;
 
     @Embedded
     private Endereco endereco;

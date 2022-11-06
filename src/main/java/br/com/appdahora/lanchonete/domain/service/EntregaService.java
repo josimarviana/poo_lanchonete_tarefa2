@@ -12,7 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Service
 public class EntregaService {
@@ -26,7 +26,7 @@ public class EntregaService {
         //regras de negócio
 
         entrega.setStatusEntrega(StatusEntrega.PENDENTE);
-        entrega.setDataSolicitacao(LocalDateTime.now());
+        entrega.setDataSolicitacao(OffsetDateTime.now());
         return entregaRepository.save(entrega);
     }
 

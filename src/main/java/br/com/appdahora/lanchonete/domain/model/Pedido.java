@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +37,10 @@ public class Pedido {
     @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition="datetime")
-    private LocalDateTime dataAtualizacao;
+    private OffsetDateTime dataAtualizacao;
 
-    private LocalDate dataConfirmacao;
-    private LocalDate dataCancelamento;
+    private OffsetDateTime dataConfirmacao;
+    private OffsetDateTime dataCancelamento;
     @Enumerated(value = EnumType.STRING)
     private StatusPedido status;
 

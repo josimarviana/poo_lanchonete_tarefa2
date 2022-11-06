@@ -21,9 +21,9 @@ insert into restaurante (nome, descricao, cozinha_id) values ("galpao", "galpao 
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 2), (2, 3), (2, 4);
 
-insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('11111111111', 'Josimar Viana', '61998287070', 'josimar@gmail.com', '1997-11-28');
-insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('22222222222', 'Maria Silva', '22555554445', 'maria@gmail.com', '2000-11-28');
-insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('33333333333', 'Jose Pereira', '22555554446', 'jose@gmail.com', '2000-11-28');
+insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('11111111111', 'Josimar Viana', '61998287070', 'josimar@gmail.com', '1997-11-28T09:00:00-03:00');
+insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('22222222222', 'Maria Silva', '22555554445', 'maria@gmail.com', '2000-11-28T09:00:00-03:00');
+insert into cliente (cpf, nome, telefone, email, data_nascimento) values ('33333333333', 'Jose Pereira', '22555554446', 'jose@gmail.com', '2000-11-28T09:00:00-03:00');
 
 insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pimenta', 'Empada Pimenta', 30, 1);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Ixe', 'Sanduiche Ixe', 20, 2);
@@ -32,8 +32,8 @@ insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche 
 insert into entrega (cidade_id, taxa, status_entrega) values (1, 5.00, "PENDENTE");
 insert into entrega (cidade_id, taxa, status_entrega) values (2, 10.00, "PENDENTE");
 
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, 1);
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, 2);
+insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, 1, utc_timestamp);
+insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, 2, utc_timestamp);
 
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 20, 20, 1);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);

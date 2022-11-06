@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.api.exceptionhandler;
 
+import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,20 +26,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler
     @Autowired
     private MessageSource messageSource;
 
-//    @ExceptionHandler(EntidadeNaoEncontradaException.class)
-//    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e){
-//
-//        Problema problema = Problema.builder()
-//                .dataHora(LocalDateTime.now())
-//                .mensagem(e.getMessage()).build();
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problema);
-//    }
+    @ExceptionHandler(EntidadeNaoEncontradaException.class)
+    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e){
+
+        Problema problema = new Problema();
+        HttpStatus status =  HttpStatus.NOT_FOUND;
+        problema.setStatus(status.value());
+        problema.setDataHora(OffsetDateTime.now());
+        problema.setMensagem(e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problema);
+    }
     @ExceptionHandler(NegocioException.class)
     public ResponseEntity<?> tratarNegocioException(NegocioException e){
         Problema problema = new Problema();
-       // HttpStatus status =  HttpStatus.BAD_REQUEST;
-        problema.setStatus(1);
-        problema.setDataHora(LocalDateTime.now());
+        HttpStatus status =  HttpStatus.BAD_REQUEST;
+        problema.setStatus(status.value());
+        problema.setDataHora(OffsetDateTime.now());
         problema.setMensagem(e.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
@@ -80,7 +84,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler
 
         Problema problema = new Problema();
         problema.setStatus(status.value());
-        problema.setDataHora(LocalDateTime.now());
+        problema.setDataHora(OffsetDateTime.now());
         problema.setMensagem("Um ou mais campos estão inválidos");
         problema.setCampos(campos);
 
