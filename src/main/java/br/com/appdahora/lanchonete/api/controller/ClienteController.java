@@ -1,7 +1,9 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.ClienteModel;
-import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
+import br.com.appdahora.lanchonete.api.mapper.ClienteMapper;
+import br.com.appdahora.lanchonete.api.model.request.ClienteRequestModel;
+import br.com.appdahora.lanchonete.api.model.response.ClienteResponseModel;
+import br.com.appdahora.lanchonete.api.model.xml.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
@@ -34,13 +36,16 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private ClienteMapper clienteMapper;
+
     // @CrossOrigin // para liberar o CORS
     // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
     @GetMapping
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Cliente> listar(){
+    public List<ClienteResponseModel> listar(){
 
-        return clienteRepository.findAll();
+        return clienteMapper.toCollectionModel(clienteRepository.findAll());
     }
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public ClientesXmlWrapper listarXML(){
@@ -56,14 +61,11 @@ public class ClienteController {
 
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
-    public ClienteModel buscar(@PathVariable Long clienteId){
+    public ClienteResponseModel buscar(@PathVariable Long clienteId){
 
         return clienteRepository.findById(clienteId)
-                .map(cliente -> {
-                    ClienteModel clienteModel = new ClienteModel();
-                    BeanUtils.copyProperties(cliente, clienteModel);
-                    return clienteModel;
-                }).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+                .map(cliente -> clienteMapper.toModel(cliente))
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
 //        return clienteRepository.findById(clienteId)
 //                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
@@ -75,10 +77,10 @@ public class ClienteController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public Cliente adicionar (@Valid  @RequestBody Cliente cliente){
+    public ClienteResponseModel adicionar (@Valid  @RequestBody ClienteRequestModel clienteRequestModel){
 
         try {
-            return clienteService.salvar(cliente);
+            return clienteMapper.toModel(clienteService.salvar(clienteMapper.toEntity(clienteRequestModel)));
         }catch (EntidadeNaoEncontradaException e){
             throw new NegocioException(e.getMessage());
         }

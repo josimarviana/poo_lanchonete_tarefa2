@@ -24,7 +24,7 @@ public abstract class Pessoa {
     @Column(length = 11)
     protected String cpf;
     @Column(length = 20)
-    @JsonProperty("fone")  //customizando na representação
+    @JsonProperty("telefone")  //customizando na representação
     @NotBlank
     @Size(max = 20)
     protected String telefone;

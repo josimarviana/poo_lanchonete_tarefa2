@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.RestaurantesXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.RestaurantesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;

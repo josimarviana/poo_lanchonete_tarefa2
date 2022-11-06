@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.PedidosXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.PedidosXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.exception.PedidoNaoEncontradoException;
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+//TODO: Alterar mapeamento para PedidoModel
 @RestController //Equivalente a @Controller e @ResponseBody
 @RequestMapping("/pedidos")
 public class PedidoController {

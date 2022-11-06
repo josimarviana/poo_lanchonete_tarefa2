@@ -1,4 +1,4 @@
-package br.com.appdahora.lanchonete.api.model;
+package br.com.appdahora.lanchonete.api.model.xml;
 
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import com.fasterxml.jackson.annotation.JsonProperty;

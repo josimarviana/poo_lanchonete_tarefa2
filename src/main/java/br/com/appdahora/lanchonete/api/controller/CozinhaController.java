@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.CozinhasXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.CozinhasXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Cozinha;
 import br.com.appdahora.lanchonete.domain.repository.CozinhaRepository;
 import br.com.appdahora.lanchonete.domain.service.CozinhaService;
