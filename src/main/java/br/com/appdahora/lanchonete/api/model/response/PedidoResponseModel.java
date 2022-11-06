@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.api.model.response;
 
-import br.com.appdahora.lanchonete.domain.model.Entrega;
 import br.com.appdahora.lanchonete.domain.model.ItemPedido;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.model.StatusPedido;
@@ -29,6 +28,6 @@ public class PedidoResponseModel {
     private List<ItemPedido> itemPedido = new ArrayList<>();
     private ClienteResumoResponseModel cliente;
     private Restaurante restaurante;
-    private Entrega entrega;
+
 
 }

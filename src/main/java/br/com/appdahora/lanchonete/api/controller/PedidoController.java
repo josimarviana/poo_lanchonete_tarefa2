@@ -1,9 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.model.xml.PedidosXmlWrapper;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
-import br.com.appdahora.lanchonete.domain.exception.PedidoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import br.com.appdahora.lanchonete.domain.service.PedidoService;
@@ -11,13 +8,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 
 //TODO: Alterar mapeamento para PedidoModel
 @RestController //Equivalente a @Controller e @ResponseBody
@@ -41,55 +36,27 @@ public class PedidoController {
 
     @GetMapping("/{pedidoId}")
     public Pedido buscar(@PathVariable Long pedidoId){
-        return pedidoRepository.findById(pedidoId)
-                .orElseThrow(() -> new PedidoNaoEncontradoException("Pedido não encontrao"));
+        return pedidoService.buscarOuFalhar(pedidoId);
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public ResponseEntity<?>  adicionar (@Valid @RequestBody Pedido pedido){
+    public Pedido  adicionar (@Valid @RequestBody Pedido pedido){
 
-        try{
-            pedidoService.salvar(pedido);
-            return ResponseEntity.ok(pedido);
-        } catch (EntidadeEmUsoException e){ //tratando violação de chave
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return pedidoService.salvar(pedido);
     }
 
     @PutMapping("/{pedidoId}")
-    public ResponseEntity<?> atualizar(@PathVariable Long pedidoId, @RequestBody Pedido pedido){
-
-        try{
-            Optional<Pedido>  pedidoAtual =  pedidoRepository.findById(pedidoId);
-            if (pedidoAtual.isPresent()) { //verifica se está vazio
-                BeanUtils.copyProperties(pedido, pedidoAtual.get(), "id", "itemPedido", "dataCriacao");
-                Pedido pedidoSalvo = pedidoService.salvar(pedidoAtual.get());
-                return ResponseEntity.ok(pedidoSalvo);
-            }
-            return ResponseEntity.notFound().build();
-        } catch (EntidadeEmUsoException e){ //tratando violação de chave
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public Pedido atualizar(@PathVariable Long pedidoId, @RequestBody Pedido pedido){
+        Pedido pedidoAtual = pedidoService.buscarOuFalhar(pedidoId);
+        BeanUtils.copyProperties(pedido, pedidoAtual, "id");
+        return pedidoService.salvar(pedidoAtual);
 
     }
     //TODO: Inserir atualizar parcial no controller pedido
     @DeleteMapping("/{pedidoId}")
-    public ResponseEntity<Pedido>  remover (@PathVariable Long pedidoId){
-        try{
-            pedidoService.remover(pedidoId);
-            return ResponseEntity.noContent().build();
-        } catch (EntidadeEmUsoException e){ //tratando violação de chave
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-        catch (EntidadeNaoEncontradaException e){ //tratando registro não encontrado
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover (@PathVariable Long pedidoId){
+        pedidoService.remover(pedidoId);
     }
 
     @GetMapping("/por-cliente-nome")
@@ -106,22 +73,22 @@ public class PedidoController {
 
     }
     @GetMapping("/por-data-criacao")
-    public List<Pedido>  pedidosPorDataCriacao(LocalDate dataCriacao) {
+    public List<Pedido>  pedidosPorDataSolicitacao(OffsetDateTime dataSolicitacao) {
 
-        return  pedidoRepository.findByDataCriacao(dataCriacao);
+        return  pedidoRepository.findByDataSolicitacao(dataSolicitacao);
 
     }
     @GetMapping("/por-data-criacao-entre")
-    public List<Pedido>   pedidosPorDataCriacaoEntre(LocalDate dataCriacaoInicial, LocalDate dataCriacaoFinal) {
+    public List<Pedido>   pedidosPorDataCriacaoEntre(OffsetDateTime dataSolicitacaoInicial, OffsetDateTime dataSolicitacaoFinal) {
 
-        return  pedidoRepository.findByDataCriacaoBetween(dataCriacaoInicial, dataCriacaoFinal);
+        return  pedidoRepository.findByDataSolicitacaoBetween(dataSolicitacaoInicial, dataSolicitacaoFinal);
 
     }
 
     @GetMapping("/por-data-criacao-entre-e-cliente")
-    public List<Pedido>  pedidosPorDataCriacaoEntreECliente(LocalDate dataCriacaoInicial, LocalDate dataCriacaoFinal, Long clienteId) {
+    public List<Pedido>  pedidosPorDataCriacaoEntreECliente(OffsetDateTime dataCriacaoInicial, OffsetDateTime dataCriacaoFinal, Long clienteId) {
 
-        return  pedidoRepository.findByDataCriacaoBetweenAndClienteId(dataCriacaoInicial, dataCriacaoFinal, clienteId);
+        return  pedidoRepository.findByDataSolicitacaoBetweenAndClienteId(dataCriacaoInicial, dataCriacaoFinal, clienteId);
 
     }
 

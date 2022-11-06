@@ -4,6 +4,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.PedidoNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
+import br.com.appdahora.lanchonete.domain.model.StatusPedido;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Service
@@ -30,6 +32,10 @@ public class PedidoService {
             throw new PedidoNaoEncontradoException(clienteId);
         }
         pedido.setCliente(cliente.get());
+
+        pedido.setStatusPedido(StatusPedido.PENDENTE);
+        pedido.setDataSolicitacao(OffsetDateTime.now());
+
         return pedidoRepository.save(pedido);
         //TODO: Criar uma entrega automaticamente
     }
@@ -45,6 +51,11 @@ public class PedidoService {
             throw new EntidadeEmUsoException(
                     String.format("Produto de código %d não pode ser removida, pois está em uso", pedidoId));
         }
+    }
+
+    public Pedido buscarOuFalhar(Long pedidoId) {
+        return pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
     }
 
 }

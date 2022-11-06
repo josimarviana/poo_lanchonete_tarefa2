@@ -29,15 +29,15 @@ insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pim
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Ixe', 'Sanduiche Ixe', 20, 2);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Promo', 'Sadcuiche Promo', 10, 2);
 
-insert into entrega (cidade_id, taxa, status_entrega) values (1, 5.00, "PENDENTE");
-insert into entrega (cidade_id, taxa, status_entrega) values (2, 10.00, "PENDENTE");
-
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, 1, utc_timestamp);
-insert into pedido (data_criacao, data_atualizacao, valor_total, cliente_id, restaurante_id, entrega_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, 2, utc_timestamp);
+insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, utc_timestamp);
+insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, utc_timestamp);
 
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 20, 20, 1);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (3, 1, 30, 30, 2);
+
+insert into ocorrencia_entrega (pedido_id, descricao, data_registro) values (1, "Tentativa sem sucesso", utc_timestamp);
+insert into ocorrencia_entrega (pedido_id, descricao, data_registro) values (2, "Entrega realizada", utc_timestamp);
 
 update cliente set logradouro="x", numero="71", bairro="centro", cidade_id=1, cep="38600000" where id = 1;
 update cliente set logradouro="y", numero="72", bairro="centro", cidade_id=2, cep="38600000" where id = 2;
