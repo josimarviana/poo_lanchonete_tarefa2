@@ -162,7 +162,8 @@ public class ClienteController {
     @GetMapping("/por-email")
     public ResponseEntity<Cliente>  clientesPorEmail(String email) {
 
-        Cliente cliente =  clienteRepository.findByEmail(email);
+        Cliente cliente =  clienteRepository.findByEmail(email)
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
         if(cliente != null) {
             return ResponseEntity.ok(cliente);

@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.domain.service;
 import br.com.appdahora.lanchonete.domain.exception.CPFInvalidoException;
 import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
+import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.util.ValidaCPF;
@@ -26,6 +27,15 @@ public class ClienteService {
                     String.format("Cliente não tem CPF válido")
             );
         }
+
+        boolean emailEmUso =  clienteRepository.findByEmail(cliente.getEmail())
+                .stream()
+                .anyMatch(clienteExistente -> !clienteExistente.equals(cliente));
+
+        if(emailEmUso){
+            throw new NegocioException("Já existe um cliente cadastrado com esse email");
+        }
+
         return clienteRepository.save(cliente);
     }
 

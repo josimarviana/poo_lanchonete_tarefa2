@@ -1,22 +1,27 @@
 package br.com.appdahora.lanchonete.api.exceptionhandler;
 
-import lombok.Builder;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
-@Builder
+@Setter
+//@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problema {
-//    private Integer status;
+    private Integer status;
     private LocalDateTime dataHora;
     private String mensagem;
 
-//    private List<Campo> campos;
-//    @AllArgsConstructor
-//    @Getter
-//    public static class Campo{
-//        private String nome;
-//        private String mensagem;
-//    }
+    private List<Campo> campos;
+    @AllArgsConstructor
+    @Getter
+    public static class Campo{
+        private String nome;
+        private String mensagem;
+    }
 }

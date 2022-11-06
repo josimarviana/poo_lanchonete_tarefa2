@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.domain.model;
 
+import br.com.appdahora.lanchonete.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -8,6 +9,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,6 +56,9 @@ public class Pedido {
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     //@JoinColumn(name = "nome_customizado_coluna_join")
+    @Valid
+    @ConvertGroup(from = Default.class, to=ValidationGroups.ClienteId.class)
+    @NotNull
     private Cliente cliente;
 
     //@JsonIgnore
