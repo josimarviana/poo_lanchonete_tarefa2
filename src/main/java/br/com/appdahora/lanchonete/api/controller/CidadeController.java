@@ -30,6 +30,7 @@ public class CidadeController {
     @GetMapping("/{cidadeId}")
     public Cidade //ResponseEntity<Cidade>
                          buscar(@PathVariable Long cidadeId) {
+
         return cidadeService.buscarOuFalhar(cidadeId);
     }
 

@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
+import br.com.appdahora.lanchonete.api.model.ClienteModel;
 import br.com.appdahora.lanchonete.api.model.ClientesXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
@@ -55,10 +56,17 @@ public class ClienteController {
 
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
-    public Cliente  buscar(@PathVariable Long clienteId){
+    public ClienteModel buscar(@PathVariable Long clienteId){
 
         return clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+                .map(cliente -> {
+                    ClienteModel clienteModel = new ClienteModel();
+                    BeanUtils.copyProperties(cliente, clienteModel);
+                    return clienteModel;
+                }).orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
+
+//        return clienteRepository.findById(clienteId)
+//                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
        // Customizando um header
        // HttpHeaders headers = new HttpHeaders();

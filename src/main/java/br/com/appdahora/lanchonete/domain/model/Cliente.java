@@ -30,4 +30,7 @@ public class Cliente extends Pessoa{
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
+
+    //@Transient //não mapeia para BD
+    //private String senha;
 }
