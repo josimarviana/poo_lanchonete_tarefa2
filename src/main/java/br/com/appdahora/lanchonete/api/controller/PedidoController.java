@@ -52,6 +52,14 @@ public class PedidoController {
         return pedidoService.salvar(pedidoAtual);
 
     }
+
+    @PutMapping("/{pedidoId}/finalizar")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finalizar(@PathVariable Long pedidoId){
+        pedidoService.finalizar(pedidoId);
+
+    }
+
     //TODO: Inserir atualizar parcial no controller pedido
     @DeleteMapping("/{pedidoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

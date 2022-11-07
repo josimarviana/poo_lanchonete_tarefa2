@@ -58,4 +58,11 @@ public class PedidoService {
                 .orElseThrow(() -> new PedidoNaoEncontradoException(pedidoId));
     }
 
+    public void finalizar(Long pedidoId){
+        Pedido pedido = buscarOuFalhar(pedidoId);
+
+        pedido.finalizar();
+        pedidoRepository.save(pedido);
+    }
+
 }

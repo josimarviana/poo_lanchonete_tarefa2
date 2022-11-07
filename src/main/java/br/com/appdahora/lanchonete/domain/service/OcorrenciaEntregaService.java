@@ -3,7 +3,6 @@ package br.com.appdahora.lanchonete.domain.service;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.OcorrenciaEntrega;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
-import br.com.appdahora.lanchonete.domain.model.StatusPedido;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,13 +31,6 @@ public class OcorrenciaEntregaService {
     public Pedido buscar(Long pedidoId){
         return pedidoRepository.findById(pedidoId)
                 .orElseThrow(() -> new NegocioException("Pedido não encontrado"));
-    }
-
-    public void finalizar(Long pedidoId){
-        Pedido pedido = buscar(pedidoId);
-
-        pedido.finalizar();
-        pedidoRepository.save(pedido);
     }
 
 }

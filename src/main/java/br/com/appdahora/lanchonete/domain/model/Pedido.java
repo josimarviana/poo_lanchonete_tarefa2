@@ -96,10 +96,11 @@ public class Pedido {
     }
 
     public boolean podeSerFinalizado(){
-        return getStatusPedido().equals(StatusPedido.PENDENTE);
+        return StatusPedido.PENDENTE.equals(getStatusPedido());
+        //return getStatusPedido().equals(StatusPedido.PENDENTE);
     }
 
     public boolean naoPodeSerFinalizado(){
-        return !getStatusPedido().equals(StatusPedido.PENDENTE);
+        return !podeSerFinalizado();
     }
 }

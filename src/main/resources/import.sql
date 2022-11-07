@@ -29,8 +29,8 @@ insert into produto (nome, descricao, preco, restaurante_id) values ('Empada Pim
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Ixe', 'Sanduiche Ixe', 20, 2);
 insert into produto (nome, descricao, preco, restaurante_id) values ('Sanduiche Promo', 'Sadcuiche Promo', 10, 2);
 
-insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, utc_timestamp);
-insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id, data_confirmacao) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, utc_timestamp);
+insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id ,status_pedido) values (utc_timestamp, utc_timestamp, 20.00, 1, 1, "PENDENTE");
+insert into pedido (data_solicitacao, data_atualizacao, valor_total, cliente_id, restaurante_id ,status_pedido) values (utc_timestamp, utc_timestamp, 20.00, 2, 2, "PENDENTE");
 
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (1, 1, 20, 20, 1);
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (2, 1, 10, 10, 2);
