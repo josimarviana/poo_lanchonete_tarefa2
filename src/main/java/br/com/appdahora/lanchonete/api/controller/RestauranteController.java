@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.xml.RestaurantesXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.RestauranteXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;
@@ -32,8 +32,8 @@ public class RestauranteController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public RestaurantesXmlWrapper listarXML(){
-        return new RestaurantesXmlWrapper(restauranteRepository.findAll());
+    public RestauranteXmlWrapper listarXML(){
+        return new RestauranteXmlWrapper(restauranteRepository.findAll());
     }
 
     @GetMapping("/{restauranteId}")

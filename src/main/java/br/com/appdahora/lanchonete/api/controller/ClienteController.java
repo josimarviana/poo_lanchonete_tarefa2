@@ -1,9 +1,9 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.mapper.ClienteMapper;
-import br.com.appdahora.lanchonete.api.model.request.ClienteRequestModel;
-import br.com.appdahora.lanchonete.api.model.response.ClienteResponseModel;
-import br.com.appdahora.lanchonete.api.model.xml.ClientesXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.input.ClienteInputModel;
+import br.com.appdahora.lanchonete.api.model.ClienteModel;
+import br.com.appdahora.lanchonete.api.model.xml.ClienteXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
@@ -43,13 +43,13 @@ public class ClienteController {
     // https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
     @GetMapping
     //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ClienteResponseModel> listar(){
+    public List<ClienteModel> listar(){
 
         return clienteMapper.toCollectionModel(clienteRepository.findAll());
     }
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public ClientesXmlWrapper listarXML(){
-        return new ClientesXmlWrapper(clienteRepository.findAll());
+    public ClienteXmlWrapper listarXML(){
+        return new ClienteXmlWrapper(clienteRepository.findAll());
     }
 
    /* resposta simples
@@ -61,7 +61,7 @@ public class ClienteController {
 
     @GetMapping("/{clienteId}")
     //Permite customizar a resposta HTTP, headers, código de resposta
-    public ClienteResponseModel buscar(@PathVariable Long clienteId){
+    public ClienteModel buscar(@PathVariable Long clienteId){
 
         return clienteRepository.findById(clienteId)
                 .map(cliente -> clienteMapper.toModel(cliente))
@@ -77,7 +77,7 @@ public class ClienteController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public ClienteResponseModel adicionar (@Valid  @RequestBody ClienteRequestModel clienteRequestModel){
+    public ClienteModel adicionar (@Valid  @RequestBody ClienteInputModel clienteRequestModel){
 
         try {
             return clienteMapper.toModel(clienteService.salvar(clienteMapper.toEntity(clienteRequestModel)));

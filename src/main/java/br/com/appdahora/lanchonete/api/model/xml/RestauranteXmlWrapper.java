@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @JacksonXmlRootElement(localName = "restaurantes")
-public class RestaurantesXmlWrapper {
+public class RestauranteXmlWrapper {
     @JsonProperty("restaurante")
     @JacksonXmlElementWrapper(useWrapping = false)
     @NonNull //obriga @Data a gerar construtor clientes

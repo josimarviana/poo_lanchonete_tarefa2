@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.xml.PedidosXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.PedidoXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Pedido;
 import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import br.com.appdahora.lanchonete.domain.service.PedidoService;
@@ -30,8 +30,8 @@ public class PedidoController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public PedidosXmlWrapper listarXML(){
-        return new PedidosXmlWrapper(pedidoRepository.findAll());
+    public PedidoXmlWrapper listarXML(){
+        return new PedidoXmlWrapper(pedidoRepository.findAll());
     }
 
     @GetMapping("/{pedidoId}")

@@ -27,25 +27,25 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler
     private MessageSource messageSource;
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e){
+    public ResponseEntity<Object> handleEntidadeNaoEncontradaException(MethodArgumentNotValidException ex, WebRequest request){
 
         Problema problema = new Problema();
         HttpStatus status =  HttpStatus.NOT_FOUND;
         problema.setStatus(status.value());
         problema.setDataHora(OffsetDateTime.now());
-        problema.setMensagem(e.getMessage());
+        problema.setMensagem(ex.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problema);
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<?> tratarNegocioException(NegocioException e){
+    public ResponseEntity<Object> handleNegocioException(MethodArgumentNotValidException ex, WebRequest request){
         Problema problema = new Problema();
         HttpStatus status =  HttpStatus.BAD_REQUEST;
         problema.setStatus(status.value());
         problema.setDataHora(OffsetDateTime.now());
-        problema.setMensagem(e.getMessage());
+        problema.setMensagem(ex.getMessage());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
+        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
     }
 
 //    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)

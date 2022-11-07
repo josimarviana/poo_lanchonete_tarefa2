@@ -1,13 +1,13 @@
 package br.com.appdahora.lanchonete.domain.service;
 
-import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
-import br.com.appdahora.lanchonete.domain.exception.OcorrenciaEntregaNaoEncontradaException;
+import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.OcorrenciaEntrega;
-import br.com.appdahora.lanchonete.domain.repository.OcorrenciaEntregaRepository;
+import br.com.appdahora.lanchonete.domain.model.Pedido;
+import br.com.appdahora.lanchonete.domain.model.StatusPedido;
+import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -15,27 +15,30 @@ public class OcorrenciaEntregaService {
     private static final String MSG_OCORRENCIA_ENTREGA_EM_USO
             = "Ocorrência de entrega de código %d não pode ser removida, pois está em uso";
     @Autowired
-    private OcorrenciaEntregaRepository ocorrenciaEntregaRepository;
+    private PedidoRepository pedidoRepository;
 
-    public OcorrenciaEntrega salvar(OcorrenciaEntrega ocorrenciaEntrega) {
+    @Autowired
+    private PedidoService pedidoService;
 
-        return ocorrenciaEntregaRepository.save(ocorrenciaEntrega);
+    @Transactional
+    public OcorrenciaEntrega registrar(Long pedidoId, String descricao) {
+
+        Pedido pedido = buscar(pedidoId);
+        pedido.adicionarOcorrencia(descricao);
+
+        return pedido.adicionarOcorrencia(descricao);
     }
 
-    public void remover(Long ocorrenciaEntregaId) {
-        try {
-            ocorrenciaEntregaRepository.deleteById(ocorrenciaEntregaId);
-
-        } catch (EmptyResultDataAccessException e) {
-            throw new OcorrenciaEntregaNaoEncontradaException(ocorrenciaEntregaId);
-
-        } catch (DataIntegrityViolationException e) {
-            throw new EntidadeEmUsoException(
-                    String.format(MSG_OCORRENCIA_ENTREGA_EM_USO, ocorrenciaEntregaId));
-        }
+    public Pedido buscar(Long pedidoId){
+        return pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new NegocioException("Pedido não encontrado"));
     }
-    public OcorrenciaEntrega buscarOuFalhar(Long ocorrenciaEntregaId) {
-        return ocorrenciaEntregaRepository.findById(ocorrenciaEntregaId)
-                .orElseThrow(() -> new OcorrenciaEntregaNaoEncontradaException(ocorrenciaEntregaId));
+
+    public void finalizar(Long pedidoId){
+        Pedido pedido = buscar(pedidoId);
+
+        pedido.finalizar();
+        pedidoRepository.save(pedido);
     }
+
 }

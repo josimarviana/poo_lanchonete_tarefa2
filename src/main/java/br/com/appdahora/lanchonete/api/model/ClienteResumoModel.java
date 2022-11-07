@@ -1,11 +1,11 @@
-package br.com.appdahora.lanchonete.api.model.response;
+package br.com.appdahora.lanchonete.api.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ClienteResumoResponseModel {
+public class ClienteResumoModel {
     private Long id;
     private String nome;
 

@@ -1,5 +1,6 @@
-package br.com.appdahora.lanchonete.api.model.response;
+package br.com.appdahora.lanchonete.api.model;
 
+import br.com.appdahora.lanchonete.api.model.ClienteResumoModel;
 import br.com.appdahora.lanchonete.domain.model.ItemPedido;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.model.StatusPedido;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PedidoResponseModel {
+public class PedidoModel {
 
     private Long id;
     private BigDecimal subTotal;
@@ -26,7 +27,7 @@ public class PedidoResponseModel {
     private OffsetDateTime dataCancelamento;
     private StatusPedido status;
     private List<ItemPedido> itemPedido = new ArrayList<>();
-    private ClienteResumoResponseModel cliente;
+    private ClienteResumoModel cliente;
     private Restaurante restaurante;
 
 

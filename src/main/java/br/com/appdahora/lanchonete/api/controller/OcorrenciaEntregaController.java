@@ -1,57 +1,41 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.domain.model.Estado;
+import br.com.appdahora.lanchonete.api.mapper.OcorrenciaEntregaMapper;
+import br.com.appdahora.lanchonete.api.model.OcorrenciaEntregaModel;
+import br.com.appdahora.lanchonete.api.model.input.OcorrenciaEntregaInputModel;
 import br.com.appdahora.lanchonete.domain.model.OcorrenciaEntrega;
-import br.com.appdahora.lanchonete.domain.repository.OcorrenciaEntregaRepository;
+import br.com.appdahora.lanchonete.domain.model.Pedido;
+import br.com.appdahora.lanchonete.domain.repository.PedidoRepository;
 import br.com.appdahora.lanchonete.domain.service.OcorrenciaEntregaService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ocorrencias")
+@RequestMapping("/pedidos/{pedidoId}/ocorrencias")
 public class OcorrenciaEntregaController {
-    @Autowired
-    private OcorrenciaEntregaRepository ocorrenciaEntregaRepository;
 
     @Autowired
     private OcorrenciaEntregaService ocorrenciaEntregaService;
 
-    @GetMapping
-    public List<OcorrenciaEntrega> listar() {
-
-        return ocorrenciaEntregaRepository.findAll();
-    }
-
-    @GetMapping("/{ocorrenciaEntregaId}")
-    public OcorrenciaEntrega buscar(@PathVariable Long ocorrenciaEntregaId) {
-        return ocorrenciaEntregaService.buscarOuFalhar(ocorrenciaEntregaId);
-
-    }
-
+    @Autowired
+    private PedidoRepository pedidoRepository;
+    @Autowired
+    private OcorrenciaEntregaMapper ocorrenciaEntregaMapper;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OcorrenciaEntrega adicionar(@RequestBody OcorrenciaEntrega ocorrenciaEntrega) {
+    public OcorrenciaEntregaModel registrar(@PathVariable Long pedidoId,
+                 @Valid @RequestBody OcorrenciaEntregaInputModel ocorrenciaInput){
 
-        return ocorrenciaEntregaService.salvar(ocorrenciaEntrega);
+        OcorrenciaEntrega ocorrenciaRegistrada = ocorrenciaEntregaService.registrar(pedidoId, ocorrenciaInput.getDescricao());
+        return ocorrenciaEntregaMapper.toModel(ocorrenciaRegistrada);
     }
-
-    @PutMapping("/{ocorrenciaEntregaId}")
-    public OcorrenciaEntrega atualizar(@PathVariable Long ocorrenciaEntregaId,
-                                            @RequestBody Estado estado) {
-        OcorrenciaEntrega ocorrenciaEntregaAtual = ocorrenciaEntregaService.buscarOuFalhar(ocorrenciaEntregaId);
-        BeanUtils.copyProperties(estado, ocorrenciaEntregaAtual, "id");
-        return ocorrenciaEntregaService.salvar(ocorrenciaEntregaAtual);
+    @GetMapping
+    public List<OcorrenciaEntregaModel> listar (@PathVariable Long pedidoId){
+        Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+        return ocorrenciaEntregaMapper.toCollectionModel(pedido.getOcorrenciasEntrega());
     }
-
-    @DeleteMapping("/{ocorrenciaEntregaId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long ocorrenciaEntregaId) {
-
-        ocorrenciaEntregaService.remover(ocorrenciaEntregaId);
-    }
-
 }

@@ -1,6 +1,7 @@
 package br.com.appdahora.lanchonete.domain.model;
 
 import br.com.appdahora.lanchonete.domain.ValidationGroups;
+import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,7 +40,7 @@ public class Pedido {
     @Column(nullable = false, columnDefinition="datetime")
     private OffsetDateTime dataAtualizacao;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private OffsetDateTime dataConfirmacao;
+    private OffsetDateTime dataFinalizacao;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataCancelamento;
     @Enumerated(value = EnumType.STRING)
@@ -71,6 +72,34 @@ public class Pedido {
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
     private Restaurante restaurante;
 
-    @OneToMany(mappedBy = "pedido")
-    private List<OcorrenciaEntrega> ocorrenciaEntregas = new ArrayList<>();
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<OcorrenciaEntrega> ocorrenciasEntrega = new ArrayList<>();
+
+    public OcorrenciaEntrega adicionarOcorrencia(String descricao){
+        OcorrenciaEntrega ocorrenciaEntrega = new OcorrenciaEntrega();
+        ocorrenciaEntrega.setDescricao(descricao);
+        ocorrenciaEntrega.setDataRegistro(OffsetDateTime.now());
+        ocorrenciaEntrega.setPedido(this);
+
+        this.getOcorrenciasEntrega().add(ocorrenciaEntrega);
+
+        return ocorrenciaEntrega;
+    }
+
+    public void finalizar(){
+        if(naoPodeSerFinalizado()) {
+
+            throw new NegocioException("Pedido não pode ser finalizado");
+        }
+        setStatusPedido(StatusPedido.FINALIZADO);
+        setDataFinalizacao(OffsetDateTime.now());
+    }
+
+    public boolean podeSerFinalizado(){
+        return getStatusPedido().equals(StatusPedido.PENDENTE);
+    }
+
+    public boolean naoPodeSerFinalizado(){
+        return !getStatusPedido().equals(StatusPedido.PENDENTE);
+    }
 }

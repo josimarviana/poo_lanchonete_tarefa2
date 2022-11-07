@@ -37,7 +37,7 @@ insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pe
 insert into item_pedido (produto_id, quantidade, preco_unitario, preco_total, pedido_id) values (3, 1, 30, 30, 2);
 
 insert into ocorrencia_entrega (pedido_id, descricao, data_registro) values (1, "Tentativa sem sucesso", utc_timestamp);
-insert into ocorrencia_entrega (pedido_id, descricao, data_registro) values (2, "Entrega realizada", utc_timestamp);
+--insert into ocorrencia_entrega (pedido_id, descricao, data_registro) values (2, "Entrega realizada", utc_timestamp);
 
 update cliente set logradouro="x", numero="71", bairro="centro", cidade_id=1, cep="38600000" where id = 1;
 update cliente set logradouro="y", numero="72", bairro="centro", cidade_id=2, cep="38600000" where id = 2;

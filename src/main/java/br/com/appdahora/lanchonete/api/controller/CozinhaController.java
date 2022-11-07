@@ -1,6 +1,6 @@
 package br.com.appdahora.lanchonete.api.controller;
 
-import br.com.appdahora.lanchonete.api.model.xml.CozinhasXmlWrapper;
+import br.com.appdahora.lanchonete.api.model.xml.CozinhaXmlWrapper;
 import br.com.appdahora.lanchonete.domain.model.Cozinha;
 import br.com.appdahora.lanchonete.domain.repository.CozinhaRepository;
 import br.com.appdahora.lanchonete.domain.service.CozinhaService;
@@ -28,8 +28,8 @@ public class CozinhaController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public CozinhasXmlWrapper listarXML(){
-        return new CozinhasXmlWrapper(cozinhaRepository.findAll());
+    public CozinhaXmlWrapper listarXML(){
+        return new CozinhaXmlWrapper(cozinhaRepository.findAll());
     }
 
     //TODO: Ajustar tratamento de exceções nos controllers
