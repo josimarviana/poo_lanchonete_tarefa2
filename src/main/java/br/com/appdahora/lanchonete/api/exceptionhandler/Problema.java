@@ -2,6 +2,7 @@ package br.com.appdahora.lanchonete.api.exceptionhandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,18 +11,18 @@ import java.util.List;
 
 @Getter
 @Setter
-//@Builder
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Problema {
     private Integer status;
     private OffsetDateTime dataHora;
     private String mensagem;
 
-    private List<Campo> campos;
-    @AllArgsConstructor
-    @Getter
-    public static class Campo{
-        private String nome;
-        private String mensagem;
-    }
+//    private List<Campo> campos;
+//    @AllArgsConstructor
+//    @Getter
+//    public static class Campo{
+//        private String nome;
+//        private String mensagem;
+//    }
 }

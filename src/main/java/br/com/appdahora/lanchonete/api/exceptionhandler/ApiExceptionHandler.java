@@ -1,5 +1,6 @@
 package br.com.appdahora.lanchonete.api.exceptionhandler;
 
+import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeNaoEncontradaException;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,71 +27,45 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler
 {
     @Autowired
     private MessageSource messageSource;
-
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
-    public ResponseEntity<Object> handleEntidadeNaoEncontradaException(MethodArgumentNotValidException ex, WebRequest request){
+    public ResponseEntity<?> tratarEntidadeNaoEncontradaException(
+            EntidadeNaoEncontradaException ex, WebRequest request) {
 
-        Problema problema = new Problema();
-        HttpStatus status =  HttpStatus.NOT_FOUND;
-        problema.setStatus(status.value());
-        problema.setDataHora(OffsetDateTime.now());
-        problema.setMensagem(ex.getMessage());
-
-        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
+                HttpStatus.NOT_FOUND, request);
     }
+
+    @ExceptionHandler(EntidadeEmUsoException.class)
+    public ResponseEntity<?> tratarEntidadeEmUsoException(
+            EntidadeEmUsoException ex, WebRequest request) {
+
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
+                HttpStatus.CONFLICT, request);
+    }
+
     @ExceptionHandler(NegocioException.class)
-    public ResponseEntity<Object> handleNegocioException(MethodArgumentNotValidException ex, WebRequest request){
-        Problema problema = new Problema();
-        HttpStatus status =  HttpStatus.BAD_REQUEST;
-        problema.setStatus(status.value());
-        problema.setDataHora(OffsetDateTime.now());
-        problema.setMensagem(ex.getMessage());
-
-        return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+    public ResponseEntity<?> tratarNegocioException(NegocioException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
+                HttpStatus.BAD_REQUEST, request);
     }
-
-//    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-//    public ResponseEntity<?> tratarHttpMediaTypeNotSupportedException(){
-//        Problema problema = Problema.builder()
-//                .dataHora(LocalDateTime.now())
-//                .mensagem("Tipo de Mídia não aceito").build();
-//        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(problema);
-//    }
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<?> MethodArgumentNotValidException(){
-//        Problema problema = Problema.builder()
-//                .dataHora(LocalDateTime.now())
-//                .mensagem("Dados incorretos").build();
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problema);
-//    }
 
     @Override
-    protected ResponseEntity<Object>
-        handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                     HttpHeaders headers, HttpStatus status, WebRequest request){
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+                                                             HttpStatus status, WebRequest request) {
 
-        List<Problema.Campo> campos = new ArrayList<>();
-
-        for (ObjectError error: ex.getBindingResult().getAllErrors()){
-            String nome = ((FieldError) error).getField();
-            String mensagem = messageSource.getMessage(error, LocaleContextHolder.getLocale());
-            campos.add(new Problema.Campo(nome, mensagem));
+        if (body == null) {
+            body = Problema.builder()
+                    .dataHora(OffsetDateTime.now())
+                    .mensagem(status.getReasonPhrase())
+                    .build();
+        } else if (body instanceof String) {
+            body = Problema.builder()
+                    .dataHora(OffsetDateTime.now())
+                    .mensagem((String) body)
+                    .build();
         }
 
-//                Problema problema = Problema.builder()
-//                .status(status.value())
-//                .dataHora(LocalDateTime.now())
-//                .mensagem(ex.getMessage()).build();
-
-        Problema problema = new Problema();
-        problema.setStatus(status.value());
-        problema.setDataHora(OffsetDateTime.now());
-        problema.setMensagem("Um ou mais campos estão inválidos");
-        problema.setCampos(campos);
-
-        return handleExceptionInternal(ex, problema, headers, status, request);
-
+        return super.handleExceptionInternal(ex, body, headers, status, request);
     }
 
 }
