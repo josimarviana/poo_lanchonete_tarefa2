@@ -16,8 +16,8 @@ insert into forma_pagamento (descricao) values ('PIX');
 insert into cozinha (nome) values ('Quitandas');
 insert into cozinha (nome) values ('Hamburguerias');
 
-insert into restaurante (nome, descricao, cozinha_id) values ('fatinha', 'empadas x', 1);
-insert into restaurante (nome, descricao, cozinha_id) values ('galpao', 'galpao do hamburguer', 2);
+insert into restaurante (cnpf, nome, descricao, cozinha_id) values ('07490497000113', 'fatinha', 'empadas x', 1);
+insert into restaurante (cnpf, nome, descricao, cozinha_id) values ('07490497000112', 'galpao', 'galpao do hamburguer', 2);
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 2), (2, 3), (2, 4);
 

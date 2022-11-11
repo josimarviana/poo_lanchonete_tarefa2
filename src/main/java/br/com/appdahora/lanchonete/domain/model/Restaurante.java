@@ -2,25 +2,33 @@ package br.com.appdahora.lanchonete.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@ToString(callSuper=true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Restaurante {
+@JsonRootName("restaurante") //muda root no xml
+public class Restaurante extends Empresa{
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 40, nullable = false)
-    private String nome;
-    @Column(length = 100)
-    private String descricao;
+
+    @Size(max = 50)
+    protected String descricao;
+
+    @Embedded
+    private Endereco endereco;
+
     //@JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso
