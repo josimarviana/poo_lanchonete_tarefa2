@@ -1,0 +1,12 @@
+POST http://localhost:8080/estados
+Content-Type: application/json
+Accept: application/json
+{
+  "nome": "Rio de Janeiro"
+}
+
+###
+GET localhost:8080/estados
+Content-Type: application/json
+Accept: application/json
+

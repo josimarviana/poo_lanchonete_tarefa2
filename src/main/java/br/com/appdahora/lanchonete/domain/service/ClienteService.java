@@ -6,7 +6,7 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
-import br.com.appdahora.lanchonete.domain.util.ValidaCPF;
+import br.com.appdahora.lanchonete.domain.util.Valida;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,11 +18,11 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private ValidaCPF validaCPF;
+    private Valida valida;
     public Cliente salvar (Cliente cliente){
         //regras de negócio
 
-        if(!validaCPF.isCPF(cliente.getCpf())){
+        if(!valida.isCPF(cliente.getCpf())){
             throw new CPFInvalidoException(
                     String.format("Cliente não tem CPF válido")
             );
