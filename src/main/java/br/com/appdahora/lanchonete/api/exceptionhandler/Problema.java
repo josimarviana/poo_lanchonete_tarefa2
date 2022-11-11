@@ -12,17 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL) //não insere atributos nulos no json
 public class Problema {
-    private Integer status;
+
     private OffsetDateTime dataHora;
     private String mensagem;
 
-//    private List<Campo> campos;
-//    @AllArgsConstructor
-//    @Getter
-//    public static class Campo{
-//        private String nome;
-//        private String mensagem;
-//    }
 }

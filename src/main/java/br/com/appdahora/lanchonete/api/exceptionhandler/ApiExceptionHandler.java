@@ -50,8 +50,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-                                                             HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
+                HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         if (body == null) {
             body = Problema.builder()
