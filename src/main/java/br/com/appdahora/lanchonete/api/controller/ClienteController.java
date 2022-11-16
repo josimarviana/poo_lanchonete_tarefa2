@@ -11,6 +11,7 @@ import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import br.com.appdahora.lanchonete.domain.model.Cliente;
 import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.ClienteService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,7 @@ public class ClienteController {
 
     private static void merge(Map<String, Object> dadosOrigem, Cliente clienteDestino) {
         ObjectMapper objectMapper = new ObjectMapper(); // converte json em objetos
+        objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
         Cliente clienteOrigem = objectMapper.convertValue(dadosOrigem, Cliente.class); // cria um objeto a partir do json
 
         dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {

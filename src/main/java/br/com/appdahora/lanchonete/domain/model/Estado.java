@@ -21,6 +21,10 @@ public class Estado {
 
     @NotNull
     @Column(nullable = false)
+    private String sigla;
+
+    @NotNull
+    @Column(nullable = false)
     private String nome;
 
     @JsonIgnore

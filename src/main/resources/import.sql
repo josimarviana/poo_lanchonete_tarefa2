@@ -1,6 +1,6 @@
-insert into estado (id, nome) values (1, 'Minas Gerais');
-insert into estado (id, nome) values (2, 'São Paulo');
-insert into estado (id, nome) values (3, 'Ceará');
+insert into estado (id, sigla, nome) values (1, 'MG', 'Minas Gerais');
+insert into estado (id, sigla, nome) values (2, 'SP', 'São Paulo');
+insert into estado (id, sigla, nome) values (3, 'CE', 'Ceará');
 
 insert into cidade (id, nome, estado_id) values (1, 'Uberlândia', 1);
 insert into cidade (id, nome, estado_id) values (2, 'Belo Horizonte', 1);

@@ -26,9 +26,6 @@ public class Restaurante extends Empresa{
     @Size(max = 50)
     protected String descricao;
 
-    @Embedded
-    private Endereco endereco;
-
     //@JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY) // altera o modo agressivo de selects para o modo preguiçoso

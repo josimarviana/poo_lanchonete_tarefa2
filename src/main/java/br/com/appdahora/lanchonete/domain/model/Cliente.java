@@ -25,8 +25,6 @@ public class Cliente extends Pessoa{
     @NotNull(groups = ValidationGroups.ClienteId.class)
     private Long id;
 
-    @Embedded
-    private Endereco endereco;
     @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();

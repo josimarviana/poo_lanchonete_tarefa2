@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -34,6 +35,10 @@ public abstract class Pessoa {
     @Size(max = 40)
     protected String email;
     protected OffsetDateTime dataNascimento;
+
+    @Embedded
+    private Endereco endereco;
+
     @JsonIgnore //inibi na representação
     protected String usuario;
 }
