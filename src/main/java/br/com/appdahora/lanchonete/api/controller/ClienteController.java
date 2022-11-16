@@ -1,8 +1,8 @@
 package br.com.appdahora.lanchonete.api.controller;
 
 import br.com.appdahora.lanchonete.api.mapper.ClienteMapper;
-import br.com.appdahora.lanchonete.api.model.input.ClienteInputModel;
 import br.com.appdahora.lanchonete.api.model.ClienteModel;
+import br.com.appdahora.lanchonete.api.model.input.ClienteInputModel;
 import br.com.appdahora.lanchonete.api.model.xml.ClienteXmlWrapper;
 import br.com.appdahora.lanchonete.domain.exception.ClienteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
@@ -13,14 +13,18 @@ import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import br.com.appdahora.lanchonete.domain.service.ClienteService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -78,7 +82,7 @@ public class ClienteController {
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // Altera o código de resposta HTTP
-    public ClienteModel adicionar (@Valid  @RequestBody ClienteInputModel clienteRequestModel){
+    public ClienteModel adicionar (@Valid @RequestBody ClienteInputModel clienteRequestModel){
 
         try {
             return clienteMapper.toModel(clienteService.salvar(clienteMapper.toEntity(clienteRequestModel)));
@@ -108,7 +112,8 @@ public class ClienteController {
         
     }
     @PatchMapping("/{clienteId}")
-    public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId, @Valid  @RequestBody Map<String, Object> campos){
+    public ResponseEntity<?> atualizarParcial(@PathVariable Long clienteId,
+                                              @Valid  @RequestBody Map<String, Object> campos, HttpServletRequest request){
         //Map para maior controle de chave e valor, onde valor é um objeto
         Optional<Cliente> clienteAtual =  clienteRepository.findById(clienteId); //recuperando do banco
 
@@ -116,27 +121,36 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
 
-        merge(campos, clienteAtual.get());
+        merge(campos, clienteAtual.get(), request);
 
         return atualizar(clienteId, clienteAtual.get());
 
     }
 
-    private static void merge(Map<String, Object> dadosOrigem, Cliente clienteDestino) {
-        ObjectMapper objectMapper = new ObjectMapper(); // converte json em objetos
-        objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-        Cliente clienteOrigem = objectMapper.convertValue(dadosOrigem, Cliente.class); // cria um objeto a partir do json
+    private static void merge(Map<String, Object> dadosOrigem, Cliente clienteDestino, HttpServletRequest request) {
+        ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
 
-        dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
-            //valorPropriedade não é devidamente convertido para os tipos corretos, dá erro ao atribuir um bigint pq no json lê int
-            Field field = ReflectionUtils.findField(Cliente.class, nomePropriedade); //recupera a instância dos atributos
-            field.setAccessible(true); //permite acesso aos membros da classe, mesmo sendo privados
+        try{
+            ObjectMapper objectMapper = new ObjectMapper(); // converte json em objetos
 
-            Object novoValor = ReflectionUtils.getField(field, clienteOrigem); //recupera o valos dos atributos
+            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // padrão, não precisa colocar
+            Cliente clienteOrigem = objectMapper.convertValue(dadosOrigem, Cliente.class); // cria um objeto a partir do json
 
-            ReflectionUtils.setField(field, clienteDestino, novoValor); //atribui os valores
+            dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+                //valorPropriedade não é devidamente convertido para os tipos corretos, dá erro ao atribuir um bigint pq no json lê int
+                Field field = ReflectionUtils.findField(Cliente.class, nomePropriedade); //recupera a instância dos atributos
+                field.setAccessible(true); //permite acesso aos membros da classe, mesmo sendo privados
 
-        });
+                Object novoValor = ReflectionUtils.getField(field, clienteOrigem); //recupera o valos dos atributos
+
+                ReflectionUtils.setField(field, clienteDestino, novoValor); //atribui os valores
+
+            });
+        }catch (IllegalArgumentException e){
+            Throwable rootCause = ExceptionUtils.getRootCause(e);
+            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
+        }
     }
 
     @DeleteMapping("/{clienteId}")
