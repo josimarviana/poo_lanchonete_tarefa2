@@ -27,6 +27,13 @@ public class Estado {
     @Column(nullable = false)
     private String nome;
 
+    private Integer ibge;
+
+    private Integer pais;
+
+    private String ddd;
+
+
     @JsonIgnore
     @OneToMany(mappedBy = "estado")
     private List<Cidade> cidades = new ArrayList<>();
