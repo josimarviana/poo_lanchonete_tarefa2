@@ -40,21 +40,21 @@ public class CidadeController {
     public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
         try {
             return cidadeService.salvar(cidade);
-        }catch (EntidadeNaoEncontradaException e){
+        } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{cidadeId}")
     public Cidade atualizar(@PathVariable Long cidadeId,
-                                       @RequestBody Cidade cidade) {
+                            @RequestBody Cidade cidade) {
 
         Cidade cidadeAtual = cidadeService.buscarOuFalhar(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 
         try {
             return cidadeService.salvar(cidadeAtual);
-        }catch (EntidadeNaoEncontradaException e){
+        } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage());
         }
 
