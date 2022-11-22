@@ -40,10 +40,12 @@ public abstract class Pessoa {
     protected String email;
     protected OffsetDateTime dataNascimento;
 
+    //TODO: Adapter para data
+
     @Embedded
     private Endereco endereco;
 
-    @JsonIgnore //inibi na representação
+    @JsonIgnore //inibe na representação
     protected String usuario;
 }
 
