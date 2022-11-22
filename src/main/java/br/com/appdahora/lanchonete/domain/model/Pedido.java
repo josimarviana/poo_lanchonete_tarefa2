@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.domain.model;
 
-import br.com.appdahora.lanchonete.domain.ValidationGroups;
 import br.com.appdahora.lanchonete.domain.exception.NegocioException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -1,6 +1,5 @@
 package br.com.appdahora.lanchonete.domain.model;
 
-import br.com.appdahora.lanchonete.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
@@ -18,6 +17,7 @@ import java.util.List;
 @Entity
 @JsonRootName("cliente") //muda root no xml
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//TODO: Testar super
 public class Cliente extends Pessoa{
     @EqualsAndHashCode.Include
     @Id
