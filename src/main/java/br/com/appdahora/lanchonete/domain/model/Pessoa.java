@@ -10,7 +10,6 @@ import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 
@@ -43,7 +42,7 @@ public abstract class Pessoa {
     //TODO: Adapter para data
 
     @Embedded
-    private Endereco endereco;
+    protected Endereco endereco;
 
     @JsonIgnore //inibe na representação
     protected String usuario;
