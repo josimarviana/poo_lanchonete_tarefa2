@@ -19,6 +19,7 @@ import java.time.OffsetDateTime;
 public abstract class Pessoa {
     @Column(length = 50, nullable = false)
     @NotBlank
+
     @Size(max = 50)
     protected String nome;
     @EqualsAndHashCode.Include
