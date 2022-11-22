@@ -24,6 +24,7 @@ public class Cidade {
 
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Estado é obrigatório")
     @JoinColumn(nullable = false)
     private Estado estado;
 

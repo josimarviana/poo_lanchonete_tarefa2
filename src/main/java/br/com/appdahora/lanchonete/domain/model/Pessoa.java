@@ -18,24 +18,23 @@ import java.time.OffsetDateTime;
 @MappedSuperclass
 public abstract class Pessoa {
     @Column(length = 50, nullable = false)
-    @NotBlank
-
+    @NotBlank(message = "Nome é obrigatório")
     @Size(max = 50)
     protected String nome;
     @EqualsAndHashCode.Include
     //TODO: Erro 500 na validação de obrigatoriedade do cpf, ajustar
     @NotBlank
-    @Size(min = 11, max = 11)
+    @Size(min = 11, max = 11, message = "O cpf precisa ter 11 dígitos")
     @Column(length = 11)
     protected String cpf;
     @Column(length = 20)
     @JsonProperty("telefone")  //customizando na representação
-    @NotBlank
+    @NotBlank(message = "Telefone é obrigatório")
     @Size(max = 20)
     protected String telefone;
     @Column(length = 40)
-    @NotBlank
-    @Email
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Formato do Email inválido")
     @Size(max = 40)
     protected String email;
     protected OffsetDateTime dataNascimento;
