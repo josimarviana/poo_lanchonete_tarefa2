@@ -1,12 +1,9 @@
 package br.com.appdahora.lanchonete;
 
-import br.com.appdahora.lanchonete.domain.model.Cliente;
-import br.com.appdahora.lanchonete.domain.repository.ClienteRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
-
-import java.util.List;
+import java.lang.reflect.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,15 +11,27 @@ public class Main {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        ClienteRepository clientes = applicationContext.getBean(ClienteRepository.class);
-
-        //listando todos os clientes
-        List<Cliente> todosClientes = clientes.findAll();
-
-        for (Cliente cliente : todosClientes) {
-            System.out.println(cliente.getId()+" - "+cliente.getNome());
-
+        String nomedaClasse = "br.com.appdahora.lanchonete.domain.model.Produto";
+        try {
+            Class c = Class.forName(nomedaClasse);
+            Method m[] = c.getDeclaredMethods();
+            for (int i = 0; i < m.length; i++)
+                System.out.println(m[i].toString());
         }
+        catch (Throwable e) {
+            System.err.println(e);
+        }
+
+
+//        ClienteRepository clientes = applicationContext.getBean(ClienteRepository.class);
+//
+//        //listando todos os clientes
+//        List<Cliente> todosClientes = clientes.findAll();
+//
+//        for (Cliente cliente : todosClientes) {
+//            System.out.println(cliente.getId()+" - "+cliente.getNome());
+//
+//        }
 
 
         /*

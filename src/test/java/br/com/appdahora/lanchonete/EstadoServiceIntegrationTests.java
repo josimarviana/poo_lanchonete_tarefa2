@@ -22,6 +22,7 @@ public class EstadoServiceIntegrationTests {
         // cenário
         Estado novoEstado = new Estado();
         novoEstado.setNome("Alagoas");
+        novoEstado.setSigla("AL");
 
         // ação
         novoEstado = estadoService.salvar(novoEstado);
