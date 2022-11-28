@@ -1,4 +1,4 @@
-package br.com.appdahora.lanchonete.api.exceptionhandler;
+package br.com.appdahora.lanchonete.api.controller.exceptionhandler;
 
 import lombok.Getter;
 

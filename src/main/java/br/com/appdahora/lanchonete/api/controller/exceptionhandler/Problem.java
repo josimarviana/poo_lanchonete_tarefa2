@@ -1,4 +1,4 @@
-package br.com.appdahora.lanchonete.api.exceptionhandler;
+package br.com.appdahora.lanchonete.api.controller.exceptionhandler;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
