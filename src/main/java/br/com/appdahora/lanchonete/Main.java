@@ -15,6 +15,7 @@ public class Main {
         try {
             Class c = Class.forName(nomedaClasse);
             Method m[] = c.getDeclaredMethods();
+            //Constructor z[] = c.getConstructors();
             for (int i = 0; i < m.length; i++)
                 System.out.println(m[i].toString());
         }
