@@ -7,5 +7,4 @@
 
 https://github.com/chinnonsantos/sql-paises-estados-cidades/tree/master/MySQL
 
-http://blog.gabrielamorim.com/java-reflection-um-exemplo-pratico/
 
