@@ -12,13 +12,13 @@ import javax.validation.ConstraintViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class EstadoServiceIntegrationTests {
+public class EstadoServiceTests {
 
     @Autowired
     private EstadoService estadoService;
 
     @Test
-    public void testarCadastroEstadoComSucesso() {
+    public void deveAtribuirId_quandoCadastroEstado_ComDadosCorretos() {
         // cenário
         Estado novoEstado = new Estado();
         novoEstado.setNome("Alagoas");
@@ -33,7 +33,7 @@ public class EstadoServiceIntegrationTests {
     }
 
     @Test
-    public void testarCadastroEstadoSemNome() {
+    public void deveFalhar_quandoCadastroEstado_SemNome() {
         Estado novoEstado = new Estado();
         novoEstado.setNome(null);
 
