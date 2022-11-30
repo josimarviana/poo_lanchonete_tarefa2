@@ -15,7 +15,7 @@ public class ClienteControllerTests {
     @LocalServerPort
     private int port=8080;
 
-    @Test
+    //@Test
     public void deveRetornarStatus200_QuandoConsultarClientes() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
