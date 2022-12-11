@@ -5,7 +5,6 @@ import br.com.appdahora.lanchonete.domain.exception.EntidadeEmUsoException;
 import br.com.appdahora.lanchonete.domain.exception.RestauranteNaoEncontradoException;
 import br.com.appdahora.lanchonete.domain.model.Restaurante;
 import br.com.appdahora.lanchonete.domain.repository.RestauranteRepository;
-import br.com.appdahora.lanchonete.domain.util.Valida;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,16 +15,13 @@ public class RestauranteService {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
-    @Autowired
-    private Valida valida;
-
     public Restaurante salvar (Restaurante restaurante){
         //regras de negócio
-        if(!valida.isCNPJ(restaurante.getCnpj())){
-            throw new CNPJInvalidoException(
-                    String.format("Restaurante não tem CNPJ válido")
-            );
-        }
+//        if(!valida.isCNPJ(restaurante.getCnpj())){
+//            throw new CNPJInvalidoException(
+//                    String.format("Restaurante não tem CNPJ válido")
+//            );
+//        }
         return restauranteRepository.save(restaurante);
     }
 

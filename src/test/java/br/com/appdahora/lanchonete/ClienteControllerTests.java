@@ -9,18 +9,18 @@ import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.given;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ClienteControllerTests {
 
     @LocalServerPort
-    private int port=8080;
+    private int port;
 
-    //@Test
-    public void deveRetornarStatus200_QuandoConsultarClientes() {
+    @Test
+    public void deveRetornarStatus200_QuandoConsultarCozinhas() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
         given()
-                .basePath("/clientes")
+                .basePath("/cozinhas")
                 .port(port)
                 .accept(ContentType.JSON)
                 .when()

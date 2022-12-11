@@ -3,6 +3,7 @@ package br.com.appdahora.lanchonete.domain.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -21,6 +22,7 @@ public abstract class Empresa {
     protected String nome;
     @EqualsAndHashCode.Include
     @Column(length = 14)
+    @CNPJ
     protected String cnpj;
     @Column(length = 20)
     @JsonProperty("telefone")  //customizando na representação
