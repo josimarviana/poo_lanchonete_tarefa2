@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -26,6 +27,7 @@ public abstract class Pessoa {
     @NotBlank
     @Size(min = 11, max = 11, message = "O cpf precisa ter 11 dígitos")
     @Column(length = 11)
+    @CPF
     protected String cpf;
     @Column(length = 20)
     @JsonProperty("telefone")  //customizando na representação

@@ -22,12 +22,6 @@ public class ClienteService {
     public Cliente salvar (Cliente cliente){
         //regras de negócio
 
-        if(!valida.isCPF(cliente.getCpf())){
-            throw new CPFInvalidoException(
-                    String.format("Cliente não tem CPF válido")
-            );
-        }
-
         boolean emailEmUso =  clienteRepository.findByEmail(cliente.getEmail())
                 .stream()
                 .anyMatch(clienteExistente -> !clienteExistente.equals(cliente));
