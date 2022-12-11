@@ -27,7 +27,7 @@ public abstract class Pessoa {
     @NotBlank
     @Size(min = 11, max = 11, message = "O cpf precisa ter 11 dígitos")
     @Column(length = 11)
-    @CPF
+    @CPF(message = "CPF inválido")
     protected String cpf;
     @Column(length = 20)
     @JsonProperty("telefone")  //customizando na representação
